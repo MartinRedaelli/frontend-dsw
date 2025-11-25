@@ -1,49 +1,67 @@
-#form-clientes {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+.clientes-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
 }
 
-#filtro-clientes,
-#dni-form,
-#nombreApellido-form,
-#direccion-form,
-#contacto-form,
-#idCliente-form {
-  width: 80%;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fafafa;
-  margin-bottom: 10px;
+.header-icon {
+    font-size: 40px !important;
+    color: var(--primary-color);
+    margin-right: 15px;
 }
 
-#ingresarCliente-form,
-#botmod-cliente {
-  padding: 10px;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-  margin-bottom: 10px;
+.search-card {
+    background-color: var(--surface-white) !important;
+    padding: 15px;
+    border-radius: var(--border-radius) !important;
+    box-shadow: var(--box-shadow-soft) !important;
+    margin-bottom: 20px;
 }
 
-#ingresarCliente-form {
-  background-color: #28a745;
-  border: none;
+.form-card {
+    background-color: var(--surface-white) !important;
+    padding: 25px;
+    border-radius: var(--border-radius) !important;
+    border-left: 5px solid var(--accent-color); /* Detalle visual distinto a stock */
+    box-shadow: var(--box-shadow-soft) !important;
+    margin-bottom: 30px;
 }
 
-#ingresarCliente-form:hover {
-  background-color: #218838;
+.form-title {
+    display: flex;
+    align-items: center;
+    color: var(--secondary-color);
+    margin-bottom: 20px !important;
+    font-weight: 600 !important;
 }
 
-#botmod-cliente {
-  background-color: #ffc107;
-  border: none;
+.table-container {
+    border-radius: var(--border-radius) !important;
+    overflow: hidden;
+    box-shadow: var(--box-shadow-soft) !important;
 }
 
-#botmod-cliente:hover {
-  background-color: #e0a800;
+.table-header-row {
+    background-color: var(--secondary-color) !important;
+}
+
+.table-header-cell {
+    color: var(--surface-white) !important;
+    font-weight: 600 !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+
+.action-btn-edit {
+    color: var(--primary-color) !important;
+}
+
+.action-btn-edit:hover {
+    background-color: rgba(25, 118, 210, 0.04) !important;
 }

@@ -1,123 +1,80 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { getToken, logout } from '../services/authService';
 
 const useClientes = () => {
   const [clientes, setClientes] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: 'idCliente', direction: 'ascending' });
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    fetchClientes();
-  }, []);
-
-  const fetchClientes = () => {
-    fetch('http://localhost:3500/clientes')
-      .then((response) => response.json())
-      .then((clientes) => {
-        if (Array.isArray(clientes)) {
-          setClientes(clientes);
-        } else {
-          setClientes([]);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching clientes:', error);
-        setClientes([]);
-      });
-  };
-
-  const handleSearchClientes = async (nombre) => {
-    let url = 'http://localhost:3500/clientes';
-
-    if (nombre) {
-      url += `?nombre=${encodeURIComponent(nombre)}`;
-    }
+  const sendRequest = async (url, method = 'GET', body = null) => {
+    const token = getToken();
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { 'Authorization': `Bearer ${token}` })
+      },
+      body: body ? JSON.stringify(body) : null
+    };
 
     try {
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
+      const response = await fetch(url, options);
+      if (response.status === 401 || response.status === 403) {
+        logout();
+        return null;
       }
-
-      const clientes = await response.json();
-      console.log('Clientes encontrados:', clientes);
-
-      if (Array.isArray(clientes)) {
-        setClientes(clientes);
-      } else {
-        setClientes([]);
-      }
-    } catch (error) {
-      console.error('Error al buscar clientes:', error);
-      setClientes([]);
+      if (!response.ok) throw new Error(response.statusText);
+      return await response.json();
+    } catch (err) {
+      setError(err.message);
+      console.error(err);
+      return null;
     }
   };
 
-  const createCliente = (cliente) => {
-    fetch('http://localhost:3500/clientes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(cliente),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Cliente ingresado correctamente:', data);
-        fetchClientes();
-      })
-      .catch((error) => {
-        console.error('Error al ingresar el cliente:', error);
-      });
+  const fetchClientes = useCallback(async (nombre = '') => {
+    const url = nombre 
+      ? `http://localhost:3500/clientes?nombre=${encodeURIComponent(nombre)}`
+      : 'http://localhost:3500/clientes';
+
+    const data = await sendRequest(url);
+    setClientes(Array.isArray(data) ? data : []);
+  }, []);
+
+  useEffect(() => { fetchClientes(); }, [fetchClientes]);
+
+  const createCliente = async (cliente) => {
+    await sendRequest('http://localhost:3500/clientes', 'POST', cliente);
+    fetchClientes();
   };
 
-  const updateCliente = (id, cliente) => {
-    fetch(`http://localhost:3500/clientes/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(cliente),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Cliente modificado correctamente:', data);
-        fetchClientes();
-      })
-      .catch((error) => {
-        console.error('Error al modificar el cliente:', error);
-      });
+  const updateCliente = async (id, cliente) => {
+    await sendRequest(`http://localhost:3500/clientes/${id}`, 'PUT', cliente);
+    fetchClientes();
   };
 
   const requestSort = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
+    const direction = (sortConfig.key === key && sortConfig.direction === 'ascending') ? 'descending' : 'ascending';
     setSortConfig({ key, direction });
   };
 
   const sortedClientes = [...clientes].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === 'ascending' ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === 'ascending' ? 1 : -1;
-    }
+    const valA = a[sortConfig.key] ? a[sortConfig.key].toString().toLowerCase() : '';
+    const valB = b[sortConfig.key] ? b[sortConfig.key].toString().toLowerCase() : '';
+    
+    if (valA < valB) return sortConfig.direction === 'ascending' ? -1 : 1;
+    if (valA > valB) return sortConfig.direction === 'ascending' ? 1 : -1;
     return 0;
   });
 
   return {
     clientes: sortedClientes,
     fetchClientes,
-    handleSearchClientes,
+    handleSearchClientes: fetchClientes,
     createCliente,
     updateCliente,
     requestSort,
+    error
   };
 };
 
