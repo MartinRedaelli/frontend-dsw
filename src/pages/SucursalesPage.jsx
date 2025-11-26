@@ -1,30 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import './SucursalesPage.css';
-import Modal from '../components/ModalSucursal';
+import React, { useState } from 'react';
+import useSucursales from '../hooks/useHookSuc';
+import Modal from '../components/ModalSucursal'; 
+import { Store as StoreIcon } from '@mui/icons-material';
 
-function FormSucursales() {
-  const [sucursales, setSucursales] = useState([]);
+const SucursalesPage = () => {
+  const { sucursales, fetchSucursales, error } = useSucursales();
   const [filtro, setFiltro] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState(null);
 
   const handleFiltroChange = (e) => {
     setFiltro(e.target.value);
+    fetchSucursales(e.target.value);
   };
-
-  const fetchSucursales = async () => {
-    try {
-      const response = await fetch(`http://localhost:3500/sucursales?filtro=${filtro}`);
-      const data = await response.json();
-      setSucursales(data);
-    } catch (error) {
-      console.error('Error al obtener las sucursales:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchSucursales();
-  }, [filtro]); 
 
   const handleVerDetalles = (sucursal) => {
     setSucursalSeleccionada(sucursal);
@@ -37,26 +25,35 @@ function FormSucursales() {
   };
 
   return (
-    <div className="App sucursales-app">
-      <header className="App-header sucursales-header">
+    <div className="page-container">
+      
+      <div className="page-title" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <StoreIcon fontSize="large" style={{ color: 'var(--success)' }} />
+        Red de Sucursales
+      </div>
+
+      <div className="form-container" style={{ marginBottom: '30px', padding: '20px' }}>
         <input
           type="text"
-          id="filtro-sucursal"
           value={filtro}
           onChange={handleFiltroChange}
-          placeholder="Buscar por nombre o dirección de sucursal..."
-          className="filtro-input"
+          placeholder="Buscar por nombre o dirección"
+          style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #ccc' }}
         />
-      </header>
+        {error && <p style={{ color: 'red', marginTop: '10px' }}>Error: {error}</p>}
+      </div>
+
       <div className="card-container">
         {sucursales.map((sucursal) => (
-          <div key={sucursal.idSucursal} className="card sucursal-card">
-            <h3 className="card-title sucursal-title">{sucursal.nombreSucursal}</h3>
-            <p className="card-text sucursal-id">ID: {sucursal.idSucursal}</p>
-            <p className="card-text sucursal-direccion">Dirección: {sucursal.direccion}</p>
-            <div className="card-button-container sucursal-button-container">
+          <div key={sucursal.idSucursal} className="card">
+            <h3 className="card-title">{sucursal.nombreSucursal}</h3>
+            <div className="card-text">
+              <p><strong>ID:</strong> #{sucursal.idSucursal}</p>
+              <p><strong>Dirección:</strong> {sucursal.direccion}</p>
+            </div>
+            <div className="card-button-container">
               <button
-                className="card-button sucursal-button"
+                className="card-button"
                 onClick={() => handleVerDetalles(sucursal)}
               >
                 Ver Detalles
@@ -64,20 +61,22 @@ function FormSucursales() {
             </div>
           </div>
         ))}
+        
+        {sucursales.length === 0 && (
+          <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: '#666' }}>
+            No se encontraron sucursales.
+          </p>
+        )}
       </div>
 
-      <Modal showModal={showModal} onClose={closeModal}>
-        {sucursalSeleccionada && (
-          <div>
-            <h3>Detalles de la Sucursal</h3>
-            <p><strong>Nombre:</strong> {sucursalSeleccionada.nombreSucursal}</p>
-            <p><strong>ID:</strong> {sucursalSeleccionada.idSucursal}</p>
-            <p><strong>Dirección:</strong> {sucursalSeleccionada.direccion}</p>
-          </div>
-        )}
-      </Modal>
+
+      <Modal 
+        open={showModal}
+        onClose={closeModal} 
+        sucursal={sucursalSeleccionada} 
+      />
     </div>
   );
-}
+};
 
-export default FormSucursales;
+export default SucursalesPage;

@@ -1,28 +1,54 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { getToken, logout } from '../services/authService';
 
 const useSucursales = () => {
   const [sucursales, setSucursales] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchSucursales = async () => {
-      try {
-        const response = await fetch('http://localhost:3500/sucursales');
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setSucursales(data);
-        } else {
-          setSucursales([]); 
-        }
-      } catch (error) {
-        console.error('Error fetching sucursales:', error);
-        setSucursales([]);
-      }
+  const sendRequest = async (url, method = 'GET', body = null) => {
+    const token = getToken();
+    const headers = {
+      'Content-Type': 'application/json',
+      ...(token && { 'Authorization': `Bearer ${token}` })
     };
 
-    fetchSucursales();
+    const options = { method, headers, body: body ? JSON.stringify(body) : null };
+
+    try {
+      const response = await fetch(url, options);
+
+      if (response.status === 401 || response.status === 403) {
+        logout();
+        return null;
+      }
+
+      if (!response.ok) throw new Error(response.statusText);
+      return await response.json();
+    } catch (err) {
+      console.error('Error en sendRequest:', err);
+      setError(err.message);
+      return null;
+    }
+  };
+
+  const fetchSucursales = useCallback(async (filtro = '') => {
+    const url = filtro 
+      ? `http://localhost:3500/sucursales?filtro=${encodeURIComponent(filtro)}`
+      : 'http://localhost:3500/sucursales';
+    
+    const data = await sendRequest(url);
+    setSucursales(Array.isArray(data) ? data : []);
   }, []);
 
-  return sucursales;
+  useEffect(() => {
+    fetchSucursales();
+  }, [fetchSucursales]);
+
+  return {
+    sucursales,
+    fetchSucursales,
+    error
+  };
 };
 
 export default useSucursales;
