@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useVentas from '../hooks/useHookVen';
+import useVentas from '../hooks/useHookVen'; 
 import DetalleVenta from '../components/DetalleVenta';
 import './VentasPage.css';
 
 function VentasPage() {
-  const { ventas, fetchVentas, error } = useVentas();
+  const { ventas, fetchVentas, requestSort, error } = useVentas();
+  
   const [filtro, setFiltro] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
@@ -26,6 +27,8 @@ function VentasPage() {
     navigate('/cargaventa/nueva');
   };
 
+  const thStyle = { cursor: 'pointer', userSelect: 'none' };
+
   return (
     <div id="form-ventas-container">
       <header className="App-header" id="header-ventas">
@@ -43,7 +46,6 @@ function VentasPage() {
           type="button"
           id="nueva-venta-btn"
           onClick={handleNuevaVenta}
-          style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}
         >
           + Nueva Venta
         </button>
@@ -55,11 +57,11 @@ function VentasPage() {
         <table id="tabla-ventas" className="tabla-negra">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Monto Total</th>
-              <th>Empleado</th>
-              <th>Cliente</th>
-              <th>Fecha</th>
+              <th style={thStyle} onClick={() => requestSort('idVenta')}>ID</th>
+              <th style={thStyle} onClick={() => requestSort('montoTotal')}>Monto Total</th>
+              <th style={thStyle} onClick={() => requestSort('nombre_apellidoEmp')}>Vendedor</th>
+              <th style={thStyle} onClick={() => requestSort('nombre_apellidoCli')}>Cliente</th>
+              <th style={thStyle} onClick={() => requestSort('fechaHoraVenta')}>Fecha y Hora</th>
               <th>Acciones</th>
             </tr>
           </thead>
