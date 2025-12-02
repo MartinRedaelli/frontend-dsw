@@ -10,7 +10,7 @@ import {
   Search as SearchIcon, PersonAdd as PersonAddIcon, Edit as EditIcon,
   Save as SaveIcon, Cancel as CancelIcon, People as PeopleIcon
 } from '@mui/icons-material';
-import './ClientesPage.css';
+import '../styles/ClientesPage.css';
 
 const ClientesPage = () => {
   const { clientes, handleSearchClientes, createCliente, updateCliente, requestSort, error: hookError } = useClientes();
@@ -42,37 +42,94 @@ const ClientesPage = () => {
     <div className="page-container">
       <div className="page-title clientes-title">
         <PeopleIcon fontSize="large" className="cliente-icon" />
-         Gestión de Clientes
+        Gestión de Clientes
       </div>
 
       {hookError && <Alert severity="error" sx={{ mb: 2 }}>{hookError}</Alert>}
 
-      <Paper elevation={0} className="search-card">
-        <TextField
-          fullWidth variant="outlined" placeholder="Buscar cliente..." size="small"
-          onChange={(e) => handleSearchClientes(e.target.value)}
-          InputProps={{ startAdornment: (<InputAdornment position="start"><SearchIcon color="action" /></InputAdornment>) }}
-        />
-      </Paper>
+      <div className="form-container">
+  <input
+    type="text"
+    placeholder="Buscar cliente"
+    className="input-filtro"
+    onChange={(e) => handleSearchClientes(e.target.value)}
+  />
+</div>
 
-      <Paper elevation={0} className="form-card">
-        <Typography variant="h6" className="form-title">
-          {formData.idCliente ? <EditIcon sx={{ mr: 1 }} /> : <PersonAddIcon sx={{ mr: 1 }} />}
-          {formData.idCliente ? 'Editar Cliente' : 'Nuevo Cliente'}
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={3}><TextField fullWidth label="DNI" name="dni" size="small" value={formData.dni} onChange={handleInputChange} required /></Grid>
-            <Grid item xs={12} sm={4}><TextField fullWidth label="Nombre" name="nombre_apellidoCli" size="small" value={formData.nombre_apellidoCli} onChange={handleInputChange} required /></Grid>
-            <Grid item xs={12} sm={3}><TextField fullWidth label="Dirección" name="direccion" size="small" value={formData.direccion} onChange={handleInputChange} /></Grid>
-            <Grid item xs={12} sm={2}><TextField fullWidth label="Contacto" name="contacto" size="small" value={formData.contacto} onChange={handleInputChange} /></Grid>
-            <Grid item xs={12} sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end', mt: 1 }}>
-              {formData.idCliente && <Button variant="outlined" color="secondary" onClick={resetForm} startIcon={<CancelIcon />}>Cancelar</Button>}
-              <Button type="submit" variant="contained" color="primary" startIcon={<SaveIcon />}>{formData.idCliente ? 'Guardar' : 'Registrar'}</Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
+      <div className="form-card">
+  <Typography variant="h6" className="form-title">
+    {formData.idCliente ? <EditIcon sx={{ mr: 1 }} /> : <PersonAddIcon sx={{ mr: 1 }} />}
+    {formData.idCliente ? 'Editar Cliente' : 'Nuevo Cliente'}
+  </Typography>
+  
+  <form onSubmit={handleSubmit} className="form-content">
+    <div className="form-row">
+      <div className="form-field">
+        <TextField 
+          fullWidth 
+          label="DNI" 
+          name="dni" 
+          size="small" 
+          value={formData.dni} 
+          onChange={handleInputChange} 
+          required 
+        />
+      </div>
+      <div className="form-field">
+        <TextField 
+          fullWidth 
+          label="Nombre" 
+          name="nombre_apellidoCli" 
+          size="small" 
+          value={formData.nombre_apellidoCli} 
+          onChange={handleInputChange} 
+          required 
+        />
+      </div>
+      <div className="form-field">
+        <TextField 
+          fullWidth 
+          label="Dirección" 
+          name="direccion" 
+          size="small" 
+          value={formData.direccion} 
+          onChange={handleInputChange} 
+        />
+      </div>
+      <div className="form-field">
+        <TextField 
+          fullWidth 
+          label="Contacto" 
+          name="contacto" 
+          size="small" 
+          value={formData.contacto} 
+          onChange={handleInputChange} 
+        />
+      </div>
+    </div>
+    
+    <div className="form-buttons">
+      {formData.idCliente && (
+        <Button 
+          variant="outlined" 
+          color="secondary" 
+          onClick={resetForm} 
+          startIcon={<CancelIcon />}
+        >
+          Cancelar
+        </Button>
+      )}
+      <Button 
+        type="submit" 
+        variant="contained" 
+        color="primary" 
+        startIcon={<SaveIcon />}
+      >
+        {formData.idCliente ? 'Guardar' : 'Registrar'}
+      </Button>
+    </div>
+  </form>
+</div>
 
       <TableContainer component={Paper} className="table-container">
         <Table sx={{ minWidth: 650 }}>

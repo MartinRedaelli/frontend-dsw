@@ -10,7 +10,8 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import { Inventory as InventoryIcon } from '@mui/icons-material';
-import './StockPage.css';
+import {  Edit as EditIcon,  AddCircle as AddCircleIcon } from '@mui/icons-material';
+import '../styles/StockPage.css';
 
 function StockPage() {
   const {
@@ -41,78 +42,104 @@ function StockPage() {
   }, []);
 
   return (
-    <div className="stock-container" style={{ padding: '20px' }}>
-      <div className="page-title stock-title">
+    <div className="page-container">
+
+      <div className="page-title">
         <InventoryIcon fontSize="large" className="stock-icon" />
         Control de Stock
       </div>
 
-      <div className="search-bar" style={{ marginBottom: '20px' }}>
+<div className="form-container">
         <input
           type="text"
-          name="nombreProducto"
           value={filters.nombreProducto}
           onChange={handleFilterChange}
           placeholder="Buscar por artículo o descripción"
-          className="form-control"
-          style={{ padding: '10px', width: '100%', maxWidth: '400px', borderRadius: '5px', border: '1px solid #ccc' }}
+          className="input-filtro"
         />
       </div>
-
-
+      
       {isAdmin && (
-        <Paper elevation={3} style={{ padding: '20px', marginBottom: '30px', backgroundColor: '#f9f9f9' }}>
-          <Typography variant="h6" gutterBottom>
-            {formData.idProducto ? 'Editar Producto' : 'Nuevo Producto'}
-          </Typography>
-          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <input
-              type="text"
-              name="articulo"
-              value={formData.articulo}
-              onChange={handleInputChange}
-              placeholder="Artículo"
-              required
-              style={{ padding: '8px', flex: 1 }}
-            />
-            <input
-              type="text"
-              name="descripcion"
-              value={formData.descripcion}
-              onChange={handleInputChange}
-              placeholder="Descripción"
-              required
-              style={{ padding: '8px', flex: 2 }}
-            />
-            <input
-              type="number"
-              name="cantidad"
-              value={formData.cantidad}
-              onChange={handleInputChange}
-              placeholder="Cant."
-              required
-              style={{ padding: '8px', width: '80px' }}
-            />
-            <input
-              type="number"
-              name="monto"
-              value={formData.monto}
-              onChange={handleInputChange}
-              placeholder="Precio ($)"
-              required
-              style={{ padding: '8px', width: '100px' }}
-            />
-            <button type="submit" className="btn-submit" style={{ padding: '8px 16px', cursor: 'pointer', backgroundColor: '#2e7d32', color: 'white', border: 'none', borderRadius: '4px' }}>
-              {formData.idProducto ? 'Guardar Cambios' : 'Agregar'}
-            </button>
-            {formData.idProducto && (
-              <button type="button" className="btn-reset" onClick={resetForm} style={{ padding: '8px 16px', cursor: 'pointer', backgroundColor: '#757575', color: 'white', border: 'none', borderRadius: '4px' }}>
-                Cancelar
-              </button>
-            )}
-          </form>
-        </Paper>
+  <div className="form-card">
+    <Typography variant="h6" className="form-title">
+      {formData.idProducto ? (
+        <>
+          <EditIcon sx={{ mr: 1 }} />
+          Editar Producto
+        </>
+      ) : (
+        <>
+          <AddCircleIcon sx={{ mr: 1 }} /> {/* Necesitarás importar este icono */}
+          Nuevo Producto
+        </>
       )}
+    </Typography>
+    
+    <form onSubmit={handleSubmit} className="form-content">
+      <div className="form-row">
+        <div className="form-field">
+          <input
+            type="text"
+            name="articulo"
+            value={formData.articulo}
+            onChange={handleInputChange}
+            placeholder="Artículo"
+            required
+            className="form-input"
+          />
+        </div>
+        
+        <div className="form-field">
+          <input
+            type="text"
+            name="descripcion"
+            value={formData.descripcion}
+            onChange={handleInputChange}
+            placeholder="Descripción"
+            required
+            className="form-input"
+          />
+        </div>
+        
+        <div className="form-field">
+          <input
+            type="number"
+            name="cantidad"
+            value={formData.cantidad}
+            onChange={handleInputChange}
+            placeholder="Cant."
+            required
+            className="form-input"
+          />
+        </div>
+        
+        <div className="form-field">
+          <input
+            type="number"
+            name="monto"
+            value={formData.monto}
+            onChange={handleInputChange}
+            placeholder="Precio ($)"
+            required
+            className="form-input"
+          />
+        </div>
+      </div>
+      
+      <div className="form-buttons">
+        <button type="submit" className="btn-submit">
+          {formData.idProducto ? 'Guardar Cambios' : 'Agregar'}
+        </button>
+        
+        {formData.idProducto && (
+          <button type="button" className="btn-cancel" onClick={resetForm}>
+            Cancelar
+          </button>
+        )}
+      </div>
+    </form>
+  </div>
+)}
 
       <div className="table-responsive">
         <table className="stock-table" style={{ width: '100%', borderCollapse: 'collapse' }}>

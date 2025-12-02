@@ -1,6 +1,6 @@
 import React from 'react';
 import useCargaVenta from '../hooks/useHookCargaVenta';
-import './CargaVenta.css';
+import '../styles/CargaVenta.css';
 
 function CargaVenta() {
   const {

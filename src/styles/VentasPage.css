@@ -1,44 +1,3 @@
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f4f4f9;
-  color: #333;
-  margin: 0;
-  padding: 0;
-  transition: background-color 0.3s ease;
-  height: 100%;
-}
-
-#form-ventas-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  width: 100%;
-  box-sizing: border-box;
-  padding-bottom: 20px;
-}
-
-#header-ventas {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-#filtro-clientes {
-  padding: 10px;
-  width: 80%;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  transition: border 0.3s, box-shadow 0.3s;
-}
-
-#filtro-clientes:focus {
-  border-color: #61dafb;
-  box-shadow: 0 0 5px #61dafb;
-}
 
 #form-venta-inputs {
   display: flex;
@@ -60,21 +19,6 @@ input[type="text"] {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
-}
-
-#nueva-venta-btn {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  border: none;
-}
-
-#nueva-venta-btn:hover {
-  background-color: #218838;
 }
 
 #tabla-ventas-container {
@@ -126,11 +70,7 @@ button.detallebtn {
 button.detallebtn:hover {
   background-color: #0056b3;
 }
-.ventas-title-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+
 
 .ventas-icon {
     color: #2e7d32 !important;

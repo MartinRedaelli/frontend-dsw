@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
-
+import '../styles/ModalSucursal.css';
 const ModalSucursal = ({ open, onClose, sucursal }) => {
   if (!sucursal) return null;
 
@@ -20,7 +20,9 @@ const ModalSucursal = ({ open, onClose, sucursal }) => {
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} color="primary">Cerrar</Button>
+        <Button onClick={onClose}>
+          Cerrar
+        </Button>
       </DialogActions>
     </Dialog>
   );

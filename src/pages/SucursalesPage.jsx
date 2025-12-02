@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import useSucursales from '../hooks/useHookSuc';
 import Modal from '../components/ModalSucursal';
 import { Store as StoreIcon } from '@mui/icons-material';
-import '../pages/SucursalesPage.css'; 
 const SucursalesPage = () => {
   const { sucursales, fetchSucursales, error } = useSucursales();
   const [filtro, setFiltro] = useState('');
@@ -27,7 +26,7 @@ const SucursalesPage = () => {
   return (
     <div className="page-container">
 
-      <div className="page-title sucursales-title">
+      <div className="page-title">
         <StoreIcon fontSize="large" className="sucursal-icon" />
         Red de Sucursales
       </div>

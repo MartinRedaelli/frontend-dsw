@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { login } from '../services/authService';
 import { Container, Paper, TextField, Button, Typography, Alert, Box } from '@mui/material';
-import './LoginPage.css'; 
+import '../styles/LoginPage.css'; 
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');

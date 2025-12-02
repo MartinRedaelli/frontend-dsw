@@ -64,43 +64,51 @@ table {
 }
 
 .card-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-  padding: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    width: 100%;
 }
 
 .card {
-  background-color: var(--surface-white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow-soft);
-  padding: 24px;
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-  border: 1px solid rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 250px;
+    padding: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--box-shadow-hover);
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--secondary-color);
-  margin-bottom: 12px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+    text-align: center;
 }
 
 .card-text {
-  font-size: 0.95rem; 
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 20px;
-  flex-grow: 1;
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 10px;
 }
-
+.card-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    width: 100%; 
+}
 .card-button-container {
   display: flex;
   justify-content: center;
@@ -132,7 +140,7 @@ button:focus, .card-button:focus {
 input, select {
   width: 100%;
   padding: 12px 16px;
-  margin: 10px 0;
+  margin-top: 10px 0;
   border: 1px solid #ccc;
   border-radius: var(--border-radius);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -143,7 +151,7 @@ input, select {
 input:focus, select:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1); /* Halo azul suave */
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }
 
 .form-container {
@@ -152,7 +160,9 @@ input:focus, select:focus {
   box-shadow: var(--box-shadow-soft);
   border-radius: var(--border-radius);
   padding: 24px;
-  margin-top: 24px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--accent-color);
 }
 
 @media (max-width: 768px) {
@@ -167,4 +177,68 @@ input:focus, select:focus {
   .card {
     max-width: 100%;
   }
+}
+
+.form-card {
+  width: 100%;
+  background-color: var(--surface-white);
+  box-shadow: var(--box-shadow-soft);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  margin-top: 24px;
+  margin-bottom: 32px;
+}
+
+.form-title {
+  font-weight: 700 !important;
+  color: var(--secondary-color);
+  margin-bottom: 20px !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Estilos para campos del formulario */
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fafafa;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
 }

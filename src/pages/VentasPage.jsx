@@ -1,46 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useVentas from '../hooks/useHookVen';
+import useVentas from '../hooks/useHookVen'; 
 import DetalleVenta from '../components/DetalleVenta';
-import './VentasPage.css';
+import '../styles/VentasPage.css';
 
-import {
-  Paper, Typography, TextField, Table, TableBody, TableCell,
-  TableContainer, TableHead, TableRow, InputAdornment, Button, Chip,
-  Alert, IconButton, Tooltip, TablePagination, TableFooter
-} from '@mui/material';
-
-import {
-  FirstPage as FirstPageIcon,
-  KeyboardArrowLeft as KeyboardArrowLeftIcon,
-  KeyboardArrowRight as KeyboardArrowRightIcon,
-  LastPage as LastPageIcon,
-  ReceiptLong as ReceiptIcon,
-  Search as SearchIcon,
-  AddShoppingCart as AddIcon,
-  Visibility as ViewIcon
-} from '@mui/icons-material';
-
-
+import { TablePagination, TableFooter, TableRow, IconButton } from '@mui/material';
+import { FirstPage as FirstPageIcon, KeyboardArrowLeft as KeyboardArrowLeftIcon,
+          KeyboardArrowRight as KeyboardArrowRightIcon, LastPage as LastPageIcon,
+          ReceiptLong as ReceiptIcon } from '@mui/icons-material';
 
 function TablePaginationActions(props) {
   const { count, page, rowsPerPage, onPageChange } = props;
 
-  const handleFirstPageButtonClick = (event) => {
-    onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = (event) => {
-    onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = (event) => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (event) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
+  const handleFirstPageButtonClick = (event) => { onPageChange(event, 0); };
+  const handleBackButtonClick = (event) => { onPageChange(event, page - 1); };
+  const handleNextButtonClick = (event) => { onPageChange(event, page + 1); };
+  const handleLastPageButtonClick = (event) => { onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1)); };
 
   return (
     <div style={{ flexShrink: 0, marginLeft: 20 }}>
@@ -110,23 +85,25 @@ function VentasPage() {
 
   return (
     
-    <div id="form-ventas-container">
-<div className="page-title ventas-title-container">
+    <div className="page-container">
+
+      <div className="page-title">
         <ReceiptIcon fontSize="large" className="ventas-icon" />
         Historial de Ventas
       </div>
 
-      <header className="App-header" id="header-ventas">
+      <div className="form-container">
         <input
           type="text"
           id="filtro-clientes"
-          placeholder="Buscar por cliente o vendedor..."
+          placeholder="Buscar por cliente o vendedor"
           onChange={handleFilterChange}
           value={filtro}
+          className="input-filtro"
         />
-      </header>
+      </div>
 
-      <div id="form-venta-inputs" className="div-container" style={{ justifyContent: 'flex-end' }}>
+      <div id="form-venta-inputs" className="div-container">
         <button
           type="button"
           id="nueva-venta-btn"
@@ -161,7 +138,7 @@ function VentasPage() {
               ventas.map((venta) => (
                 <tr key={venta.idVenta}>
                   <td>#{venta.idVenta}</td>
-                  <td style={{ fontWeight: 'bold', color: '#4caf50' }}>
+                  <td className="monto-total-cell">
                     ${Number(venta.montoTotal).toFixed(2)}
                   </td>
                   <td>{venta.nombre_apellidoEmp}</td>

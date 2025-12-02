@@ -6,9 +6,10 @@ import {
 } from '@mui/material';
 import {
   Search as SearchIcon, Badge as BadgeIcon, Save as SaveIcon, 
-  Cancel as CancelIcon, Edit as EditIcon, Store as StoreIcon
+  Cancel as CancelIcon, Edit as EditIcon, Store as StoreIcon, PersonAdd as PersonAddIcon 
 } from '@mui/icons-material';
-import './EmpleadosPage.css';
+
+import '../styles/EmpleadosPage.css';
 
 const EmpleadosPage = () => {
   const { empleados, fetchEmpleados, createEmpleado, updateEmpleado, error } = useEmpleados();
@@ -51,52 +52,121 @@ const EmpleadosPage = () => {
 
   return (
     <div className="page-container">
-            {/* Título Unificado (Estilo Sucursales) */}
-      <div className="page-title" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <BadgeIcon fontSize="large" style={{ color: '#5e35b1' }} />
-        Gestión de Personal
-      </div>
+      <div className="page-title">
+  <BadgeIcon fontSize="large" className="sucursal-icon" />
+  <span>Gestión de Personal</span>
+</div>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {/* Buscador */}
-      <Paper elevation={0} className="search-card" sx={{ mb: 3, p: 2, borderRadius: 2, border: '1px solid #e0e0e0' }}>
-        <TextField
-          fullWidth variant="outlined" placeholder="Buscar empleado..." size="small"
-          onChange={(e) => fetchEmpleados(e.target.value)}
-          InputProps={{ startAdornment: (<InputAdornment position="start"><SearchIcon color="action" /></InputAdornment>) }}
-        />
-      </Paper>
+      <div className="form-container">
+  <input
+    type="text"
+    placeholder="Buscar empleado"
+    className="input-filtro"
+    onChange={(e) => fetchEmpleados(e.target.value)}
+  />
+</div>
 
-      <Paper elevation={0} className="form-card-empleado">
-        <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold', color: '#5e35b1' }}>
-          {isEditMode ? 'Editar Empleado' : 'Nuevo Empleado'}
-        </Typography>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={3}>
-              <TextField fullWidth label="DNI / CUIL" name="DNI_CUIL" size="small" value={formData.DNI_CUIL} onChange={handleInputChange} required disabled={isEditMode} />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField fullWidth label="Nombre Completo" name="nombre_apellidoEmp" size="small" value={formData.nombre_apellidoEmp} onChange={handleInputChange} required />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField fullWidth label="Contacto" name="contacto" size="small" value={formData.contacto} onChange={handleInputChange} />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <TextField select fullWidth label="Sucursal" name="sucursal" size="small" value={formData.sucursal} onChange={handleInputChange} required>
-                {sucursales.map((suc) => (
-                  <MenuItem key={suc.idSucursal} value={suc.idSucursal}>{suc.nombreSucursal}</MenuItem>
-                ))}
-              </TextField>
-            </Grid>
-            <Grid item xs={12} sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
-              {isEditMode && <Button variant="outlined" color="secondary" onClick={resetForm} startIcon={<CancelIcon />}>Cancelar</Button>}
-              <Button type="submit" variant="contained" sx={{ bgcolor: '#5e35b1' }} startIcon={<SaveIcon />}>{isEditMode ? 'Modificar' : 'Ingresar'}</Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Paper>
+      <div className="form-card">
+  <Typography variant="h6" className="form-title">
+    {isEditMode ? (
+      <>
+        <EditIcon sx={{ mr: 1 }} />
+        Editar Empleado
+      </>
+    ) : (
+      <>
+        <PersonAddIcon sx={{ mr: 1 }} /> 
+        Nuevo Empleado
+      </>
+    )}
+  </Typography>
+  
+  <form onSubmit={handleSubmit}>
+    <Grid container spacing={2}>
+      <Grid item xs={12} sm={3}>
+        <TextField 
+          fullWidth 
+          label="DNI / CUIL" 
+          name="DNI_CUIL" 
+          size="small" 
+          value={formData.DNI_CUIL} 
+          onChange={handleInputChange} 
+          required 
+          disabled={isEditMode}
+          className="form-field"
+        />
+      </Grid>
+      <Grid item xs={12} sm={3}>
+        <TextField 
+          fullWidth 
+          label="Nombre Completo" 
+          name="nombre_apellidoEmp" 
+          size="small" 
+          value={formData.nombre_apellidoEmp} 
+          onChange={handleInputChange} 
+          required
+          className="form-field"
+        />
+      </Grid>
+      <Grid item xs={12} sm={3}>
+        <TextField 
+          fullWidth 
+          label="Contacto" 
+          name="contacto" 
+          size="small" 
+          value={formData.contacto} 
+          onChange={handleInputChange}
+          className="form-field"
+        />
+      </Grid>
+      <Grid item xs={12} sm={3}>
+        <TextField 
+          select 
+          fullWidth 
+          label="Sucursal" 
+          name="sucursal" 
+          size="small" 
+          value={formData.sucursal} 
+          onChange={handleInputChange} 
+          required
+          className="form-field"
+        >
+          {sucursales.map((suc) => (
+            <MenuItem key={suc.idSucursal} value={suc.idSucursal}>
+              {suc.nombreSucursal}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid>
+      
+      <Grid item xs={12} className="form-buttons">
+        {isEditMode && (
+          <Button 
+            variant="outlined" 
+            color="secondary" 
+            onClick={resetForm} 
+            startIcon={<CancelIcon />}
+            className="btn-cancel"
+          >
+            Cancelar
+          </Button>
+        )}
+        <Button 
+          type="submit" 
+          variant="contained" 
+          className="btn-submit"
+          startIcon={<SaveIcon />}
+          sx={{ backgroundColor: '#5e35b1' }}
+        >
+          {isEditMode ? 'Modificar' : 'Ingresar'}
+        </Button>
+      </Grid>
+    </Grid>
+  </form>
+</div>
 
       <div className="card-container">
         {empleados.map((emp) => (
