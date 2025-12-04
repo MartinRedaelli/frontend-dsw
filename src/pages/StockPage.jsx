@@ -128,7 +128,7 @@ function StockPage() {
       </div>
       
       <div className="form-buttons">
-        <button type="submit" className="btn-submit">
+        <button type="submit" className="btn-submit btn-agregar">
           {formData.idProducto ? 'Guardar Cambios' : 'Agregar'}
         </button>
         

@@ -124,6 +124,7 @@ const ClientesPage = () => {
         type="submit" 
         variant="contained" 
         color="primary" 
+        sx={{ backgroundColor: '#7e57c2' }}
         startIcon={<SaveIcon />}
       >
         {formData.idCliente ? 'Guardar' : 'Registrar'}
@@ -159,7 +160,7 @@ const ClientesPage = () => {
                 <td>{cli.direccion}</td>
                 <td>{cli.contacto}</td>
                 <td>
-                  <button className="btn-edit" onClick={() => handleEdit(cli)}> Editar</button>
+                  <button className="btn-edit btn-edit-cli" onClick={() => handleEdit(cli)}> Editar</button>
                 </td>
               </tr>
             ))

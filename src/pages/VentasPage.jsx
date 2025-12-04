@@ -108,6 +108,7 @@ function VentasPage() {
           type="button"
           id="nueva-venta-btn"
           onClick={handleNuevaVenta}
+          className='btn-nueva-venta'
         >
           + Nueva Venta
         </button>

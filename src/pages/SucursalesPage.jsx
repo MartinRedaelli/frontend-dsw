@@ -57,7 +57,7 @@ const SucursalesPage = () => {
 
             <div className="card-button-container">
               <button
-                className="card-button"
+                className="card-button btn-sucursal"
                 onClick={() => handleVerDetalles(sucursal)}
               >
                 Ver Detalles

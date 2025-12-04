@@ -1,4 +1,3 @@
-
 #form-venta-inputs {
   display: flex;
   flex-direction: column;
@@ -79,4 +78,8 @@ button.detallebtn:hover {
 
 .form-container-venta{
   border-left: 4px solid #2e7d32 !important;
+}
+
+.btn-nueva-venta{
+  background-color: #2e7d32 ;
 }

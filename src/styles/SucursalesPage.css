@@ -6,3 +6,7 @@
 .form-container-sucursal{
     border-left: 4px solid #00bcd4 !important;
 }
+
+.btn-sucursal {
+    background-color: #00bcd4;
+}

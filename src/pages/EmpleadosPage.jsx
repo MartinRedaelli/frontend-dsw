@@ -158,7 +158,7 @@ const EmpleadosPage = () => {
           variant="contained" 
           className="btn-submit"
           startIcon={<SaveIcon />}
-          sx={{ backgroundColor: '#5e35b1' }}
+          sx={{ backgroundColor: '#ff9800' }}
         >
           {isEditMode ? 'Modificar' : 'Ingresar'}
         </Button>
