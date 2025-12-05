@@ -2,29 +2,39 @@ import { useState, useEffect } from 'react';
 import { getToken, getUsuarioActual } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 
-export const useHookCargaVenta = () => {
+const useCargaVenta = () => {
+
   const [articulos, setArticulos] = useState([]);
   const [clientes, setClientes] = useState([]); 
-  const [articuloSeleccionado, setArticuloSeleccionado] = useState('');
+  
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [clienteSeleccionado, setClienteSeleccionado] = useState('');
   const [cantidad, setCantidad] = useState(1);
+  
   const [productosVenta, setProductosVenta] = useState([]); 
   const [totalVenta, setTotalVenta] = useState(0);
   
   const navigate = useNavigate();
 
+  const fetchSeguro = async (url) => {
+    const token = getToken();
+    const response = await fetch(url, {
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+        }
+    });
+    if (!response.ok) throw new Error(response.statusText);
+    return response.json();
+  };
+
   useEffect(() => {
     const cargarDatos = async () => {
-        const token = getToken();
-        const headers = { 'Authorization': `Bearer ${token}` };
-
         try {
-            const resProd = await fetch('http://localhost:3500/stock?estado=Disponible&limite=1000', { headers });
-            const dataProd = await resProd.json();
+            const dataProd = await fetchSeguro('http://localhost:3500/stock?estado=Disponible&limite=1000');
             if (dataProd.productos) setArticulos(dataProd.productos);
 
-            const resCli = await fetch('http://localhost:3500/clientes', { headers });
-            const dataCli = await resCli.json();
+            const dataCli = await fetchSeguro('http://localhost:3500/clientes');
             if (Array.isArray(dataCli)) setClientes(dataCli);
 
         } catch (error) {
@@ -35,27 +45,27 @@ export const useHookCargaVenta = () => {
   }, []);
 
   const agregarArticuloAVenta = () => {
-    if (!articuloSeleccionado || cantidad <= 0) {
-      alert('Seleccione un artículo válido y una cantidad mayor a 0.');
-      return;
+    if (!productoSeleccionado || cantidad <= 0) {
+      return alert('Seleccione un artículo válido y cantidad mayor a 0.');
     }
 
-    const articulo = articulos.find((a) => a.idProducto === parseInt(articuloSeleccionado));
-
-    if (!articulo) return alert('Artículo no válido');
+    const articulo = productoSeleccionado;
 
     if (cantidad > articulo.cantidad) {
-      alert(`Stock insuficiente. Disponible: ${articulo.cantidad}.`);
-      return;
+      return alert(`Stock insuficiente. Disponible: ${articulo.cantidad}.`);
     }
 
     const subtotal = parseFloat(articulo.monto) * cantidad;
     
-    const nuevosProductos = [...productosVenta, { ...articulo, cantidad, subtotal }];
+    const nuevosProductos = [...productosVenta, { 
+        ...articulo, 
+        cantidad: parseInt(cantidad), 
+        subtotal 
+    }];
     setProductosVenta(nuevosProductos);
     calcularTotalVenta(nuevosProductos);
 
-    setArticuloSeleccionado('');
+    setProductoSeleccionado(null);
     setCantidad(1);
   };
 
@@ -99,7 +109,7 @@ export const useHookCargaVenta = () => {
       });
   
       if (response.ok) {
-          alert('Venta registrada con éxito');
+          alert('¡Venta registrada con éxito!');
           navigate('/ventas');
       } else {
           const error = await response.json();
@@ -114,9 +124,9 @@ export const useHookCargaVenta = () => {
   return {
     articulos,
     clientes,
-    articuloSeleccionado,
+    productoSeleccionado,
+    setProductoSeleccionado,
     clienteSeleccionado,
-    setArticuloSeleccionado,
     setClienteSeleccionado,
     cantidad,
     setCantidad,
@@ -128,4 +138,4 @@ export const useHookCargaVenta = () => {
   };
 };
 
-export default useHookCargaVenta;
+export default useCargaVenta;

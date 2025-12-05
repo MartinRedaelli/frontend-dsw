@@ -160,7 +160,7 @@ const EmpleadosPage = () => {
           startIcon={<SaveIcon />}
           sx={{ backgroundColor: '#ff9800' }}
         >
-          {isEditMode ? 'Modificar' : 'Ingresar'}
+          {isEditMode ? 'Modificar' : 'Registrar'}
         </Button>
       </Grid>
     </Grid>

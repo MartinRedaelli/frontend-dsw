@@ -1,13 +1,14 @@
 import React from 'react';
 import useCargaVenta from '../hooks/useHookCargaVenta';
-import '../styles/CargaVenta.css';
+import '../styles/CargaVenta.css'; 
+import { TextField, Autocomplete } from '@mui/material';
 
 function CargaVenta() {
   const {
     articulos,
     clientes,
-    articuloSeleccionado,
-    setArticuloSeleccionado,
+    productoSeleccionado,
+    setProductoSeleccionado,
     clienteSeleccionado,
     setClienteSeleccionado,
     cantidad,
@@ -25,47 +26,62 @@ function CargaVenta() {
 
       <div id="formulario-venta">
         
-        <select 
-          id="select-cliente"
-          onChange={(e) => setClienteSeleccionado(e.target.value)} 
-          value={clienteSeleccionado}
-          style={{ marginBottom: '10px', width: '100%', padding: '10px' }}
-        >
-          <option value="">-- Selecciona un Cliente --</option>
-          {clientes.map((c) => (
-            <option key={c.idCliente} value={c.idCliente}>
-              {c.nombre_apellidoCli} (DNI: {c.dni})
-            </option>
-          ))}
-        </select>
+        <div className="form-row">
+  
+  <div className="form-group">
+    <label className="form-label">Cliente:</label>
+    <Autocomplete
+      id="select-cliente"
+      options={clientes}
+      getOptionLabel={(c) => `${c.nombre_apellidoCli} (DNI: ${c.dni})`}
+      value={clientes.find(c => c.idCliente === clienteSeleccionado) || null}
+      onChange={(event, newValue) => {
+        setClienteSeleccionado(newValue ? newValue.idCliente : '');
+      }}
+      renderInput={(params) => (
+        <TextField {...params} variant="outlined" size="small" placeholder="Buscar Cliente" />
+      )}
+    />
+  </div>
 
-        <select 
-          id="select-articulo"
-          onChange={(e) => setArticuloSeleccionado(e.target.value)} 
-          value={articuloSeleccionado}
-        >
-          <option value="">Selecciona un artículo</option>
-          {articulos.map((articulo) => (
-            <option key={articulo.idProducto} value={articulo.idProducto}>
-              {articulo.articulo} - {articulo.descripcion} - ${articulo.monto}
-            </option>
-          ))}
-        </select>
+  <div className="form-group">
+    <label className="form-label">Artículo:</label>
+    <Autocomplete 
+      id="select-articulo"
+      options={articulos}
+      getOptionLabel={(a) => `${a.articulo} - $${a.monto} (Stock: ${a.cantidad})`}
+      value={productoSeleccionado}
+      onChange={(event, newValue) => {
+        setProductoSeleccionado(newValue); 
+      }}
+      renderInput={(params) => (
+        <TextField {...params} variant="outlined" size="small" placeholder="Buscar Producto" />
+      )}
+      isOptionEqualToValue={(option, value) => option.idProducto === value.idProducto}
+    />
+  </div>
 
-        <input
-          type="number"
-          id="input-cantidad"
-          placeholder='Cantidad'
-          value={cantidad}
-          onChange={(e) => setCantidad(e.target.value)}
-          min="1"
-        />
+  <div className="form-group small-input">
+    <label className="form-label">Cantidad:</label>
+    <input
+      type="number"
+      id="input-cantidad"
+      placeholder="Cantidad"
+      value={cantidad}
+      onChange={(e) => setCantidad(e.target.value)}
+      min="1"
+      className="input-style"
+    />
+  </div>
 
-        <button id="boton-agregar" onClick={agregarArticuloAVenta}>Agregar a Venta</button>
+</div>
+
+        <button id="boton-agregar" onClick={agregarArticuloAVenta} className="card-button">
+            Agregar al Carrito
+        </button>
       </div>
 
       <div id="productos-en-venta">
-        <h2 id="titulo-productos">Productos en la Venta</h2>
         <table id="tabla-productos">
           <thead>
             <tr>
@@ -81,12 +97,13 @@ function CargaVenta() {
               <tr key={index}>
                 <td>{producto.articulo}</td>
                 <td>{producto.cantidad}</td>
-                <td>${producto.precio}</td>
+                <td>${producto.monto || producto.precio}</td>
                 <td>${producto.subtotal}</td>
                 <td>
                   <button 
                     id={`boton-eliminar-${index}`} 
                     onClick={() => eliminarArticuloAVenta(producto.idProducto)}
+                    className="btn-delete"
                   >
                     Eliminar
                   </button>
@@ -97,10 +114,10 @@ function CargaVenta() {
         </table>
 
         <div id="total-venta">
-          <h3>Total Venta: ${totalVenta}</h3>
+          <h3>Total Venta: ${totalVenta.toFixed(2)}</h3>
         </div>
 
-        <button id="boton-finalizar" onClick={finalizarVenta}>Finalizar Venta</button>
+        <button id="boton-finalizar" onClick={finalizarVenta} className="card-button">Finalizar Venta</button>
       </div>
     </div>
   );
