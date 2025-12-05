@@ -75,7 +75,8 @@ function App() {
                         <Route path="/sucursales" element={<PrivateRoute><SucursalesPage /></PrivateRoute>} />
                         <Route path="/stock" element={<PrivateRoute><StockPage /></PrivateRoute>} />
 
-                        <Route path="/empleados" element={<PrivateRoute roleRequired="admin"><EmpleadosPage /></PrivateRoute>} />
+                        <Route path="/empleados" element={<PrivateRoute ><EmpleadosPage /></PrivateRoute>} /> 
+                        {/* roleRequired="admin" */}
 
                         <Route path="/detalle_venta/:idVenta" element={<PrivateRoute><DetalleVenta /></PrivateRoute>} />
                         <Route path="/cargaventa/:idVenta" element={<PrivateRoute><CargaVenta /></PrivateRoute>} />

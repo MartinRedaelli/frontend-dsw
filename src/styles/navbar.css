@@ -1,125 +1,10 @@
-/* .MuiAppBar-root {
-    background-color: #1a237e !important;
-    border-radius: 10px;
-}
-
-.navbar-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    position: relative;
-}
-
-.navbar-title {
-    flex-grow: 0 !important;
-}
-
-.navbar-center-container {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.navbar-right-container {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    margin-left: auto;
-}
-
-.nav-btn-active-ventas { 
-    background-color: #2e7d32 !important;
-}
-.nav-btn-active-ventas:hover { 
-    background-color: #1b5e20 !important; 
-}
-
-.nav-btn-active-stock { 
-    background-color: #1976d3 !important;
-}
-.nav-btn-active-stock:hover { 
-    background-color: #1565c0 !important; 
-}
-
-.nav-btn-active-clientes { 
-    background-color: #7b1fa2 !important;
-}
-.nav-btn-active-clientes:hover { 
-    background-color: #6a1b9a !important; 
-}
-
-.nav-btn-active-empleados { 
-    background-color: #ed6c02 !important;
-}
-.nav-btn-active-empleados:hover { 
-    background-color: #e65100 !important; 
-}
-
-.nav-btn-active-sucursales { 
-    background-color: #00838f !important;
-}
-.nav-btn-active-sucursales:hover { 
-    background-color: #00695c !important; 
-}
-
-.nav-btn-active-dashboard { 
-    background-color: #50c878 !important;
-    color: white !important;
-}
-.nav-btn-active-dashboard:hover { 
-    background-color: #3cb371 !important;
-}
-
-.btn-CerrarSesion {
-    background-color: white !important;
-    color: #6c757d !important;
-    height: 36px !important;
-    padding: 5px 5px !important;
-    border-radius: 5px !important;
-    cursor: pointer !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
-    text-transform: none !important;
-}
-
-.btn-CerrarSesion:hover {
-    background-color: #dc3545 !important;
-    color: white !important;
-}
-
-.user-name {
-    color: #bbdefb !important;
-    font-weight: 500 !important;
-    font-size: 14px !important;
-    border-left: 2px solid rgba(255, 255, 255, 0.2) !important;
-    letter-spacing: 0.2px !important;
-}
-
-.icon-perfil {
-    position: relative;
-    top: -2px;
-    margin-right: 5px;}
-
- */
-
-
- /* ======================================
-    DEFINICIONES GLOBALES
-    ======================================
-*/
 :root {
-    /* Colores base proporcionados por el usuario */
     --navbar-bg: #1a237e; 
     --navbar-text: #ffffff; 
     --accent-color: #3498db; 
     --danger: #dc3545; 
     --secondary-text: #6c757d;
 
-    /* Colores de botones activos (copiados de tu consulta) */
     --ventas-bg: #2e7d32;
     --stock-bg: #1976d3;
     --clientes-bg: #7b1fa2;
@@ -130,7 +15,6 @@
     --navbar-height: 60px;
 }
 
-/* --- ESTILOS BASE MUI (Manteniendo colores y estructura) --- */
 
 .MuiAppBar-root {
     background-color: var(--navbar-bg) !important;
@@ -152,19 +36,9 @@
     flex-grow: 0 !important;
     font-weight: 700;
     color: var(--navbar-text);
-    z-index: 10; /* Alto z-index para el botón de hamburguesa y título */
+    z-index: 10; 
 }
 
-/* ======================================
-    MOBILE FIRST (Diseño por defecto: < 600px)
-    ======================================
-*/
-
-
-.css-1mg0a89-MuiButtonBase-root-MuiIconButton-root {
-    
-}
-/* --- Botón de hamburguesa --- */
 .menu-toggle {
     display: block; 
     background: none;
@@ -175,7 +49,6 @@
     z-index: 10;
 }
 
-/* --- Menú Central: Colapsado --- */
 .navbar-center-container {
     position: absolute;
     top: var(--navbar-height);
@@ -186,7 +59,6 @@
     flex-direction: column;
     background-color: var(--navbar-bg); 
     
-    /* Control de VISIBILIDAD y Transición */
     max-height: 0;
     overflow: hidden;
     opacity: 0;
@@ -194,7 +66,6 @@
     z-index: 5;
 }
 
-/* CLAVE: Muestra el menú cuando está abierto */
 .navbar-center-container.open {
     max-height: 500px; 
     opacity: 1;
@@ -213,13 +84,11 @@
     text-transform: none !important;
 }
 
-/* --- Contenedor Derecho (Usuario y Logout) --- */
 .navbar-right-container {
     display: none; 
 }
 
 
-/* --- ESTILOS DE BOTONES ACTIVOS (Mobile y Desktop) --- */
 
 .nav-btn-active-ventas { background-color: var(--ventas-bg) !important; }
 .nav-btn-active-ventas:hover { background-color: #1b5e20 !important; }
@@ -243,7 +112,7 @@
 .btn-CerrarSesion {
     background-color: white !important;
     color: var(--secondary-text) !important;
-    height: 36px !important;
+    height: 90% !important;
     padding: 5px 5px !important;
     border-radius: 5px !important;
     cursor: pointer !important;
@@ -255,6 +124,10 @@
 
 .user-name {
     color: #bbdefb !important;
+    height: 100%;
+    width: 150px;
+    display: flex !important;
+    align-items: center;
     font-weight: 500 !important;
     font-size: 14px !important;
     border-left: 2px solid rgba(255, 255, 255, 0.2) !important;
@@ -268,21 +141,21 @@
     margin-right: 5px;
 }
 
-/* ======================================
-    DESKTOP & TABLET (> 600px)
-    ======================================
-*/
+
 @media (min-width: 600px) {
+
+    .btn-CerrarSesion-navbar-mobile {
+        display: none !important;
+    }
+
     .navbar-toolbar {
         padding: 0 20px;
     }
     
-    /* Ocultar el botón de hamburguesa */
     .menu-toggle {
         display: none;
     }
 
-    /* Mostrar enlaces en línea */
     .navbar-center-container {
         position: static;
         display: flex !important; 
@@ -290,7 +163,7 @@
         transform: none;
         left: auto;
         flex-grow: 1; 
-        justify-content: middle; /* Alinear a la izquierda del espacio central */
+        justify-content: middle;
         gap: 15px; 
         margin-left: 20px;
         max-height: none; 
@@ -302,14 +175,12 @@
     
     .navbar-center-container button,
     .navbar-center-container a {
-        /* Estilos de botones en línea para desktop */
         padding: 8px 12px;
         border-bottom: none;
         border-radius: 6px !important;
         text-align: center;
     }
     
-    /* Mostrar contenedor de usuario y logout */
     .navbar-right-container {
         display: flex !important;
         position: static;
