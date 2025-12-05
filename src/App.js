@@ -8,7 +8,7 @@ import ClientesPage from './pages/ClientesPage';
 import EmpleadosPage from './pages/EmpleadosPage';
 import SucursalesPage from './pages/SucursalesPage';
 import CargaVenta from './components/CargaVenta';
-import DashboardPage from './pages/DashboardPage'; 
+import DashboardPage from './pages/dashboardPage'; 
 import DetalleVenta from './components/DetalleVenta'; 
 import { getToken, getUsuarioActual } from './services/authService'; 
 import './styles/index.css';
