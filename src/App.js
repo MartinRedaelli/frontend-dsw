@@ -8,12 +8,11 @@ import ClientesPage from './pages/ClientesPage';
 import EmpleadosPage from './pages/EmpleadosPage';
 import SucursalesPage from './pages/SucursalesPage';
 import CargaVenta from './components/CargaVenta';
-import DashboardPage from './pages/dashboardPage'; 
+import DashboardPage from './pages/DashboardPage'; 
 import DetalleVenta from './components/DetalleVenta'; 
 import { getToken, getUsuarioActual } from './services/authService'; 
 import './styles/index.css';
 
-// Componente PrivateRoute para rutas protegidas
 const PrivateRoute = ({ children, roleRequired }) => {
     const isAuthenticated = !!getToken();
     const user = getUsuarioActual();
@@ -29,7 +28,6 @@ const PrivateRoute = ({ children, roleRequired }) => {
     return <Navigate to={user.rol === 'admin' ? "/dashboard" : "/"} />;
 };
 
-// Componente para manejar la redirección post-login desde la ruta raíz (/)
 const InitialRedirect = () => {
     const isAuthenticated = !!getToken();
     const user = getUsuarioActual();
@@ -75,9 +73,8 @@ function App() {
                         <Route path="/sucursales" element={<PrivateRoute><SucursalesPage /></PrivateRoute>} />
                         <Route path="/stock" element={<PrivateRoute><StockPage /></PrivateRoute>} />
 
-                        <Route path="/empleados" element={<PrivateRoute ><EmpleadosPage /></PrivateRoute>} /> 
-                        {/* roleRequired="admin" */}
-
+                        <Route path="/empleados" element={<PrivateRoute roleRequired="admin"><EmpleadosPage /></PrivateRoute>} />
+              
                         <Route path="/detalle_venta/:idVenta" element={<PrivateRoute><DetalleVenta /></PrivateRoute>} />
                         <Route path="/cargaventa/:idVenta" element={<PrivateRoute><CargaVenta /></PrivateRoute>} />
 

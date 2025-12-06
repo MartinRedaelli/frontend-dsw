@@ -79,12 +79,12 @@ const NavBar = () => {
                     <Button color="inherit" component={Link} to="/stock" className={getActiveClass('/stock')} onClick={() => setMenuOpen(false)}>Stock</Button>
                     <Button color="inherit" component={Link} to="/clientes" className={getActiveClass('/clientes')} onClick={() => setMenuOpen(false)}>Clientes</Button>
                     
-                    {/* {user.rol === 'admin' && ( */}
+                    {user.rol === 'admin' && (
                         <>
                             <Button color="inherit" component={Link} to="/empleados" className={getActiveClass('/empleados')} onClick={() => setMenuOpen(false)}>Empleados</Button>
                             <Button color="inherit" component={Link} to="/sucursales" className={getActiveClass('/sucursales')} onClick={() => setMenuOpen(false)}>Sucursales</Button>
                         </>
-                    {/* )} */}
+                     )}
 
                 </Box>
 

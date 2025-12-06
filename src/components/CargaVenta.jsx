@@ -145,37 +145,39 @@ function CargaVenta() {
         </button>
       </div>
 
-      <div id="productos-en-venta">
-        <table id="tabla-productos">
-          <thead>
-            <tr>
-              <th>Artículo</th>
-              <th>Cantidad</th>
-              <th>Precio</th>
-              <th>Subtotal</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {productosVenta.map((producto, index) => (
-              <tr key={index}>
-                <td>{producto.articulo}</td>
-                <td>{producto.cantidad}</td>
-                <td>${producto.monto || producto.precio}</td>
-                <td>${producto.subtotal}</td>
-                <td>
-                  <button 
-                    id={`boton-eliminar-${index}`} 
-                    onClick={() => eliminarArticuloAVenta(producto.idProducto)}
-                    className="btn-delete"
-                  >
-                    Eliminar
-                  </button>
-                </td>
+<div id="productos-en-venta">
+        <div className="table-responsive-wrapper"> 
+          <table id="tabla-productos">
+            <thead>
+              <tr>
+                <th>Artículo</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Subtotal</th>
+                <th>Acciones</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {productosVenta.map((producto, index) => (
+                <tr key={index}>
+                  <td>{producto.articulo}</td>
+                  <td>{producto.cantidad}</td>
+                  <td>${producto.monto || producto.precio}</td>
+                  <td>${producto.subtotal}</td>
+                  <td>
+                    <button 
+                      id={`boton-eliminar-${index}`} 
+                      onClick={() => eliminarArticuloAVenta(producto.idProducto)}
+                      className="btn-delete"
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         <div id="total-venta">
           <h3>Total Venta: ${totalVenta.toFixed(2)}</h3>

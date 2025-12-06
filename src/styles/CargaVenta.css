@@ -25,7 +25,7 @@ body {
 
 #detalle-cargar-venta {
   padding: 20px;
-  max-width: 1000px;
+  max-width: 1200px; 
   margin: 0 auto;
   background-color: #ffffff;
   border-radius: 10px;
@@ -44,7 +44,9 @@ body {
 
 #tabla-productos {
     width: 100%;
-  }
+    min-width: 600px; 
+    border-collapse: collapse;
+}
 
 .form-label {
   font-size: 0.85rem;
@@ -69,9 +71,10 @@ body {
 
 .form-row {
   display: flex;
-  gap: 25px;
+  flex-direction: column; 
+  gap: 15px;
   margin-bottom: 20px;
-  align-items: flex-end;
+  align-items: stretch;
 }
 
 .form-group {
@@ -81,10 +84,24 @@ body {
 }
 
 .small-input {
-  flex: 0.25;
+  flex: none; 
+  width: 100%;
 }
 
-/* Estilos para el input de búsqueda */
+
+@media (min-width: 600px) {
+  .form-row {
+    flex-direction: row; 
+    gap: 25px;
+    align-items: flex-end; 
+  }
+
+  .small-input {
+    flex: 0 0 120px; 
+    width: auto;
+  }
+}
+
 .search-container {
   position: relative;
   width: 100%;
@@ -92,14 +109,33 @@ body {
 
 .search-input {
   width: 100%;
-  padding: 8px 12px;
-  padding-right: 35px; /* Espacio para el ícono */
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
-  background-color: white;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
+  padding: 12px 16px; 
+  padding-right: 35px; 
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  font-size: 0.95rem; 
+  background-color: #fafafa;
+}
+
+#productos-en-venta .table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto; 
+  margin-top: 20px;
+  box-shadow: var(--box-shadow-soft);
+  border-radius: var(--border-radius);
+}
+
+#tabla-productos thead th {
+  color: var(--surface-white) !important;
+  font-weight: 600 !important;
+  text-align: left;
+  padding: 12px;
+  white-space: nowrap; 
+}
+
+#tabla-productos tbody td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  white-space: nowrap;
 }
