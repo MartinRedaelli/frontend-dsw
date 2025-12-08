@@ -7,7 +7,7 @@ function DetalleVenta({ venta, closeModal }) {
 
   useEffect(() => {
     setLoading(true); 
-    fetch(`http://localhost:3500/detalle_ventas/${venta.idVenta}`)
+fetch(`http://localhost:3500/ventas/${venta.idVenta}/detalle`)
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
