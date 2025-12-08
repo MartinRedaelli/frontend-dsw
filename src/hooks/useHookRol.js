@@ -1,10 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getToken, logout } from '../services/authService';
 
-const ROLES_API_URL = 'http://localhost:3500/roles';
 
 const useRoles = () => {
-  const [roles, setRoles] = useState([]);
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+const ROLES_API_URL = `${API_BASE_URL}/roles`;
+ 
+const [roles, setRoles] = useState([]);
   const [loadingRoles, setLoadingRoles] = useState(false);
   const [errorRoles, setErrorRoles] = useState(null);
 

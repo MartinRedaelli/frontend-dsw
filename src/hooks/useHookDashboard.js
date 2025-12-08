@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { getUsuarioActual, getToken } from '../services/authService';
 
 const useHookDashboard = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+
     const [stats, setStats] = useState({
         ventasMes: 0,
         ingresosMes: 0,
@@ -32,7 +34,7 @@ const useHookDashboard = () => {
                     headers['Authorization'] = `Bearer ${token}`;
                 }
                 
-                const response = await fetch('http://localhost:3500/api/dashboard/estadisticas', {
+                const response = await fetch(`${API_BASE_URL}/api/dashboard/estadisticas`, {
                     method: 'GET',
                     headers: headers
                 });

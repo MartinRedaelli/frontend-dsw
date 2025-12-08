@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3500';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const login = async (email, password) => {
     try {
@@ -26,7 +26,6 @@ export const login = async (email, password) => {
 
 export const resetPasswordDirect = async (email, newPassword) => {
     try {
-        // CORRECCIÓN CLAVE: Se agrega el prefijo /auth a la URL
         const response = await fetch(`${API_URL}/auth/reset-direct`, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

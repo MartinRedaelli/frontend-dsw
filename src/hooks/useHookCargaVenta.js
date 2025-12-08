@@ -3,6 +3,7 @@ import { getToken, getUsuarioActual } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 const useCargaVenta = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
 
   const [articulos, setArticulos] = useState([]);
   const [clientes, setClientes] = useState([]); 
@@ -31,10 +32,10 @@ const useCargaVenta = () => {
   useEffect(() => {
     const cargarDatos = async () => {
         try {
-            const dataProd = await fetchSeguro('http://localhost:3500/stock?estado=Disponible&limite=1000');
+            const dataProd = await fetchSeguro(`${API_BASE_URL}/stock?estado=Disponible&limite=1000`);
             if (dataProd.productos) setArticulos(dataProd.productos);
 
-            const dataCli = await fetchSeguro('http://localhost:3500/clientes');
+            const dataCli = await fetchSeguro(`${API_BASE_URL}/clientes`);
             if (Array.isArray(dataCli)) setClientes(dataCli);
 
         } catch (error) {
@@ -99,7 +100,7 @@ const useCargaVenta = () => {
 
     try {
       const token = getToken();
-      const response = await fetch('http://localhost:3500/ventas/crearVenta', {
+      const response = await fetch(`${API_BASE_URL}/ventas/crearVenta`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

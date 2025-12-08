@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { getToken, logout } from '../services/authService';
 
 const useClientes = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+
   const [clientes, setClientes] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: 'idCliente', direction: 'ascending' });
   const [error, setError] = useState(null);
@@ -34,8 +36,8 @@ const useClientes = () => {
 
   const fetchClientes = useCallback(async (nombre = '') => {
     const url = nombre 
-      ? `http://localhost:3500/clientes?nombre=${encodeURIComponent(nombre)}`
-      : 'http://localhost:3500/clientes';
+      ? `${API_BASE_URL}/clientes?nombre=${encodeURIComponent(nombre)}`
+      : `${API_BASE_URL}/clientes`;
 
     const data = await sendRequest(url);
     setClientes(Array.isArray(data) ? data : []);
@@ -44,12 +46,12 @@ const useClientes = () => {
   useEffect(() => { fetchClientes(); }, [fetchClientes]);
 
   const createCliente = async (cliente) => {
-    await sendRequest('http://localhost:3500/clientes', 'POST', cliente);
+    await sendRequest(`${API_BASE_URL}/clientes`, 'POST', cliente);
     fetchClientes();
   };
 
   const updateCliente = async (id, cliente) => {
-    await sendRequest(`http://localhost:3500/clientes/${id}`, 'PUT', cliente);
+    await sendRequest(`${API_BASE_URL}/clientes/${id}`, 'PUT', cliente);
     fetchClientes();
   };
 

@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback } from 'react';
 import { getToken, logout } from '../services/authService';
 
 const useSucursales = () => {
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+
   const [sucursales, setSucursales] = useState([]);
   const [error, setError] = useState(null);
 
@@ -33,8 +35,8 @@ const useSucursales = () => {
 
   const fetchSucursales = useCallback(async (filtro = '') => {
     const url = filtro 
-      ? `http://localhost:3500/sucursales?filtro=${encodeURIComponent(filtro)}`
-      : 'http://localhost:3500/sucursales';
+      ? `${API_BASE_URL}/sucursales?filtro=${encodeURIComponent(filtro)}`
+      : `${API_BASE_URL}/sucursales`;
     
     const data = await sendRequest(url);
     setSucursales(Array.isArray(data) ? data : []);

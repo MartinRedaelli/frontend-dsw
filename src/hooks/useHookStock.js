@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { getToken, logout } from '../services/authService';
 
 function useStock() {
-  const [productos, setProductos] = useState([]);
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+  
+  const [productos, setProductos] = useState([]);
   const [totalProductos, setTotalProductos] = useState(0);
   const [formData, setFormData] = useState({
     articulo: '',
@@ -65,7 +67,7 @@ function useStock() {
     const totalPages = Math.ceil(totalProductos / validatedLimit) || 1;
     const validatedPage = page >= totalPages ? totalPages - 1 : (page < 0 ? 0 : page);
   
-    const url = `http://localhost:3500/stock?producto=${encodeURIComponent(nombreProducto)}&pagina=${validatedPage}&limite=${validatedLimit}`;
+    const url = `${API_BASE_URL}/stock?producto=${encodeURIComponent(nombreProducto)}&pagina=${validatedPage}&limite=${validatedLimit}`;
   
     try {
       const data = await sendRequest(url);
@@ -102,7 +104,7 @@ function useStock() {
   };
 
   const createProducto = (producto) => {
-    sendRequest('http://localhost:3500/stock', 'POST', producto)
+    sendRequest('`${API_BASE_URL}/stock', 'POST', producto)
       .then(() => {
         fetchProductos();
         resetForm();
@@ -111,7 +113,7 @@ function useStock() {
   };
 
   const updateProducto = (id, producto) => {
-    sendRequest(`http://localhost:3500/stock/${id}`, 'PUT', producto)
+    sendRequest(`${API_BASE_URL}/stock/${id}`, 'PUT', producto)
       .then(() => {
         fetchProductos();
         resetForm();
@@ -145,7 +147,7 @@ function useStock() {
 
     if (confirmDelete) {
       // Enviamos el NUEVO estado que queremos asignar al producto.
-      sendRequest(`http://localhost:3500/stockelim/${idProducto}`, 'PUT', { estado: nuevoEstado }) 
+      sendRequest(`${API_BASE_URL}/stockelim/${idProducto}`, 'PUT', { estado: nuevoEstado }) 
         .then(() => fetchProductos())
         .catch((error) => console.error('Error al eliminar el producto:', error));
     }
