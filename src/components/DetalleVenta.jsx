@@ -48,7 +48,7 @@ function DetalleVenta({ venta, closeModal }) {
                 <h2 className="titulo-venta">
                     Detalles de Venta #{venta.idVenta}
                 </h2>
-                <div className="tabla-container">
+                <div className="table-responsive">
                     <table className="tabla-negra">
                         <thead>
                             <tr>
