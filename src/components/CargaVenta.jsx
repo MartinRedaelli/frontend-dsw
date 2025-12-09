@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useCargaVenta from '../hooks/useHookCargaVenta';
+import useCargaVenta from '../hooks/useHookVen';
 import '../styles/CargaVenta.css';
 
 function CargaVenta() {
