@@ -26,7 +26,7 @@ export const login = async (email, password) => {
 
 export const resetPasswordDirect = async (email, newPassword) => {
     try {
-        const response = await fetch(`${API_URL}/auth/reset-direct`, { 
+        const response = await fetch(`${API_URL}auth/reset-direct`, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, newPassword })

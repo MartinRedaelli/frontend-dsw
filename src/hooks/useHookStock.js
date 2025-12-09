@@ -67,7 +67,7 @@ function useStock() {
     const totalPages = Math.ceil(totalProductos / validatedLimit) || 1;
     const validatedPage = page >= totalPages ? totalPages - 1 : (page < 0 ? 0 : page);
   
-    const url = `${API_BASE_URL}/stock?producto=${encodeURIComponent(nombreProducto)}&pagina=${validatedPage}&limite=${validatedLimit}`;
+    const url = `${API_BASE_URL}stock?producto=${encodeURIComponent(nombreProducto)}&pagina=${validatedPage}&limite=${validatedLimit}`;
   
     try {
       const data = await sendRequest(url);
@@ -104,7 +104,7 @@ function useStock() {
   };
 
   const createProducto = (producto) => {
-    sendRequest('`${API_BASE_URL}/stock', 'POST', producto)
+    sendRequest('`${API_BASE_URL}stock', 'POST', producto)
       .then(() => {
         fetchProductos();
         resetForm();
@@ -113,7 +113,7 @@ function useStock() {
   };
 
   const updateProducto = (id, producto) => {
-    sendRequest(`${API_BASE_URL}/stock/${id}`, 'PUT', producto)
+    sendRequest(`${API_BASE_URL}stock/${id}`, 'PUT', producto)
       .then(() => {
         fetchProductos();
         resetForm();
@@ -135,19 +135,15 @@ function useStock() {
     });
   };
 
-  // CORRECCIÓN: Calcular el nuevo estado para el borrado lógico
   const handleElim = (idProducto, estadoActual) => {
     const confirmDelete = window.confirm('¿Estás seguro de que deseas cambiar el estado de este producto?');
     
-    // Si el estado actual es "Disponible", el nuevo estado debe ser "No Disponible" o similar.
-    // Si ya está "No Disponible", lo volvemos a "Disponible" (esto es opcional, pero hace la función reversible).
     const nuevoEstado = (estadoActual === 'Disponible' || estadoActual === 'Alta') 
                         ? 'No Disponible' 
                         : 'Disponible'; // Si no es Disponible, lo activamos
 
     if (confirmDelete) {
-      // Enviamos el NUEVO estado que queremos asignar al producto.
-      sendRequest(`${API_BASE_URL}/stockelim/${idProducto}`, 'PUT', { estado: nuevoEstado }) 
+      sendRequest(`${API_BASE_URL}stockelim/${idProducto}`, 'PUT', { estado: nuevoEstado }) 
         .then(() => fetchProductos())
         .catch((error) => console.error('Error al eliminar el producto:', error));
     }

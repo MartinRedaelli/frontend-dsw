@@ -32,10 +32,10 @@ const useCargaVenta = () => {
   useEffect(() => {
     const cargarDatos = async () => {
         try {
-            const dataProd = await fetchSeguro(`${API_BASE_URL}/stock?estado=Disponible&limite=1000`);
+            const dataProd = await fetchSeguro(`${API_BASE_URL}stock?estado=Disponible&limite=1000`);
             if (dataProd.productos) setArticulos(dataProd.productos);
 
-            const dataCli = await fetchSeguro(`${API_BASE_URL}/clientes`);
+            const dataCli = await fetchSeguro(`${API_BASE_URL}clientes`);
             if (Array.isArray(dataCli)) setClientes(dataCli);
 
         } catch (error) {
@@ -100,7 +100,7 @@ const useCargaVenta = () => {
 
     try {
       const token = getToken();
-      const response = await fetch(`${API_BASE_URL}/ventas/crearVenta`, {
+      const response = await fetch(`${API_BASE_URL}ventas/crearVenta`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -4,7 +4,7 @@ import { getToken, logout } from '../services/authService';
 
 const useRoles = () => {
   const API_BASE_URL = process.env.REACT_APP_API_URL;
-const ROLES_API_URL = `${API_BASE_URL}/roles`;
+const ROLES_API_URL = `${API_BASE_URL}roles`;
  
 const [roles, setRoles] = useState([]);
   const [loadingRoles, setLoadingRoles] = useState(false);

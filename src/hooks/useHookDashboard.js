@@ -34,7 +34,7 @@ const useHookDashboard = () => {
                     headers['Authorization'] = `Bearer ${token}`;
                 }
                 
-                const response = await fetch(`${API_BASE_URL}/api/dashboard/estadisticas`, {
+                const response = await fetch(`${API_BASE_URL}api/dashboard/estadisticas`, {
                     method: 'GET',
                     headers: headers
                 });

@@ -35,8 +35,8 @@ const useSucursales = () => {
 
   const fetchSucursales = useCallback(async (filtro = '') => {
     const url = filtro 
-      ? `${API_BASE_URL}/sucursales?filtro=${encodeURIComponent(filtro)}`
-      : `${API_BASE_URL}/sucursales`;
+      ? `${API_BASE_URL}sucursales?filtro=${encodeURIComponent(filtro)}`
+      : `${API_BASE_URL}sucursales`;
     
     const data = await sendRequest(url);
     setSucursales(Array.isArray(data) ? data : []);

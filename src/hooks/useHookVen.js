@@ -23,7 +23,7 @@ const useVentas = () => {
     params.append('pagina', page);
     params.append('limite', limit);
 
-    const url = `${API_BASE_URL}/ventas?${params.toString()}`;
+    const url = `${API_BASE_URL}ventas?${params.toString()}`;
 
     try {
       const response = await fetch(url, {

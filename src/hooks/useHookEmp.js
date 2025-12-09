@@ -4,7 +4,7 @@ import { getToken, logout } from "../services/authService";
 
 const useEmpleados = () => {
   const API_BASE_URL = process.env.REACT_APP_API_URL;
-  const API = `${API_BASE_URL}/empleados`;
+  const API = `${API_BASE_URL}empleados`;
 
   const [empleados, setEmpleados] = useState([]);
   const [loading, setLoading] = useState(false);

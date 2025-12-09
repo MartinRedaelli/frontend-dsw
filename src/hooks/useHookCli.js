@@ -36,8 +36,8 @@ const useClientes = () => {
 
   const fetchClientes = useCallback(async (nombre = '') => {
     const url = nombre 
-      ? `${API_BASE_URL}/clientes?nombre=${encodeURIComponent(nombre)}`
-      : `${API_BASE_URL}/clientes`;
+      ? `${API_BASE_URL}clientes?nombre=${encodeURIComponent(nombre)}`
+      : `${API_BASE_URL}clientes`;
 
     const data = await sendRequest(url);
     setClientes(Array.isArray(data) ? data : []);
@@ -46,12 +46,12 @@ const useClientes = () => {
   useEffect(() => { fetchClientes(); }, [fetchClientes]);
 
   const createCliente = async (cliente) => {
-    await sendRequest(`${API_BASE_URL}/clientes`, 'POST', cliente);
+    await sendRequest(`${API_BASE_URL}clientes`, 'POST', cliente);
     fetchClientes();
   };
 
   const updateCliente = async (id, cliente) => {
-    await sendRequest(`${API_BASE_URL}/clientes/${id}`, 'PUT', cliente);
+    await sendRequest(`${API_BASE_URL}clientes/${id}`, 'PUT', cliente);
     fetchClientes();
   };
 
