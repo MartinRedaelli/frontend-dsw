@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import '../styles/DetalleVenta.css';
-import useVentas from '../hooks/useVentas';
+import useVentas from '../hooks/useHookVen';
 
 function DetalleVenta({ venta, closeModal }) {
 
