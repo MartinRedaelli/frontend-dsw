@@ -32,31 +32,31 @@
     padding: 0;
 }
 
-.card-ventas {
+.monthly-sales-card {
     border-top: 4px solid #2e7d32;
 }
 
-.card-ingresos {
+.monthly-revenue-card {
     border-top: 4px solid #1976d2;
 }
 
-.card-stock-bajo {
+.low-stock-card {
     border-top: 4px solid #ff9800;
 }
 
-.card-sin-stock {
+.out-of-stock-card {
     border-top: 4px solid #d32f2f;
 }
 
-.card-top-productos {
+.top-products-card {
     border-top: 4px solid #7b1fa2;
 }
 
-.card-top-vendedores {
+.top-sellers-card {
     border-top: 4px solid #ed6c02;
 }
 
-.ingreso-monto {
+.revenue-amount {
     font-size: 43px !important;
 }
 

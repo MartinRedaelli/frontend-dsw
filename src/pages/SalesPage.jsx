@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useVentas from '../hooks/useHookVen'; 
-import DetalleVenta from '../components/DetalleVenta';
-import '../styles/VentasPage.css';
+import useSales from '../hooks/useSales'; 
+import SaleDetail from '../components/SaleDetail';
+import '../styles/SalesPage.css';
 
 import { TablePagination, TableFooter, TableRow, IconButton } from '@mui/material';
 import { FirstPage as FirstPageIcon, KeyboardArrowLeft as KeyboardArrowLeftIcon,
@@ -35,41 +35,41 @@ function TablePaginationActions(props) {
   );
 }
 
-function VentasPage() {
+function SalesPage() {
   const { 
-    ventas, 
-    fetchVentas, 
+    sales, 
+    fetchSales, 
     requestSort, 
     error,
     page,
     setPage,
     limit,
     setLimit,
-    totalVentas
-  } = useVentas();
+    totalSales
+  } = useSales();
   
-  const [filtro, setFiltro] = useState('');
+  const [filter, setFilter] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
+  const [selectedSale, setSelectedSale] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchVentas(filtro);
-  }, [page, limit, filtro]); 
+    fetchSales(filter);
+  }, [page, limit, filter]); 
 
   const handleFilterChange = (e) => {
-    const valor = e.target.value;
-    setFiltro(valor);
+    const value = e.target.value;
+    setFilter(value);
     setPage(0);
   };
 
-  const handleDetalleClick = (venta) => {
-    setVentaSeleccionada(venta);
+  const handleDetailClick = (sale) => {
+    setSelectedSale(sale);
     setIsModalOpen(true);
   };
 
-  const handleNuevaVenta = () => {
-    navigate('/cargaventa/nueva');
+  const handleNewSale = () => {
+    navigate('/saleupload/new');
   };
 
   const handleChangePage = (event, newPage) => {
@@ -88,27 +88,27 @@ function VentasPage() {
     <div className="page-container">
 
       <div className="page-title">
-        <ReceiptIcon fontSize="large" className="ventas-icon" />
+        <ReceiptIcon fontSize="large" className="sales-icon" />
         Historial de Ventas
       </div>
 
-      <div className="form-container form-container-venta">
+      <div className="form-container form-container-sale">
         <input
           type="text"
-          id="filtro-clientes"
+          id="client-filter"
           placeholder="Buscar por cliente o vendedor"
           onChange={handleFilterChange}
-          value={filtro}
-          className="input-filtro "
+          value={filter}
+          className="input-filter"
         />
       </div>
 
-      <div id="form-venta-inputs" className="div-container">
+      <div id="sale-form-inputs" className="div-container">
         <button
           type="button"
-          id="nueva-venta-btn"
-          onClick={handleNuevaVenta}
-          className='btn-nueva-venta'
+          id="new-sale-btn"
+          onClick={handleNewSale}
+          className='btn-new-sale'
         >
           + Nueva Venta
         </button>
@@ -117,7 +117,7 @@ function VentasPage() {
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
 
       <div className="table-responsive">
-        <table id="tabla-ventas" className="tabla-negra">
+        <table id="sales-table" className="black-table">
           <thead>
             <tr>
               <th style={thStyle} onClick={() => requestSort('idVenta')}>ID ↕</th>
@@ -129,26 +129,26 @@ function VentasPage() {
             </tr>
           </thead>
           <tbody>
-            {ventas.length === 0 ? (
+            {sales.length === 0 ? (
               <tr>
                 <td colSpan="6" style={{ textAlign: 'center', padding: '20px' }}>
                   No se encontraron ventas.
                 </td>
               </tr>
             ) : (
-              ventas.map((venta) => (
-                <tr key={venta.idVenta}>
-                  <td>#{venta.idVenta}</td>
-                  <td className="monto-total-cell">
-                    ${Number(venta.montoTotal).toFixed(2)}
+              sales.map((sale) => (
+                <tr key={sale.idVenta}>
+                  <td>#{sale.idVenta}</td>
+                  <td className="total-amount-cell">
+                    ${Number(sale.montoTotal).toFixed(2)}
                   </td>
-                  <td>{venta.nombre_apellidoEmp}</td>
-                  <td>{venta.nombre_apellidoCli}</td>
-                  <td>{new Date(venta.fechaHoraVenta).toLocaleString()}</td>
+                  <td>{sale.nombre_apellidoEmp}</td>
+                  <td>{sale.nombre_apellidoCli}</td>
+                  <td>{new Date(sale.fechaHoraVenta).toLocaleString()}</td>
                   <td>
                     <button 
-                      className="detallebtn" 
-                      onClick={() => handleDetalleClick(venta)}
+                      className="detail-btn" 
+                      onClick={() => handleDetailClick(sale)}
                     >
                       Ver Detalle
                     </button>
@@ -163,7 +163,7 @@ function VentasPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 20]}
                 colSpan={6}
-                count={totalVentas}
+                count={totalSales}
                 rowsPerPage={limit}
                 page={page}
                 SelectProps={{
@@ -180,9 +180,9 @@ function VentasPage() {
         </table>
       </div>
 
-      {isModalOpen && ventaSeleccionada && (
-        <DetalleVenta
-          venta={ventaSeleccionada}
+      {isModalOpen && selectedSale && (
+        <SaleDetail
+          sale={selectedSale}
           closeModal={() => setIsModalOpen(false)}
         />
       )}
@@ -190,4 +190,4 @@ function VentasPage() {
   );
 }
 
-export default VentasPage;
+export default SalesPage;

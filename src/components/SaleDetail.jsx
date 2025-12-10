@@ -1,25 +1,25 @@
 import React, { useEffect } from 'react';
-import '../styles/DetalleVenta.css';
-import useVentas from '../hooks/useHookVen';
+import '../styles/SaleDetail.css';
+import useSales from '../hooks/useSales';
 
-function DetalleVenta({ venta, closeModal }) {
+function SaleDetail({ sale, closeModal }) {
 
     const { 
-        detalleVenta,   
-        loadingDetalle,   
-        fetchDetalleVenta 
-    } = useVentas(); 
+        saleDetail,   
+        loadingDetail,   
+        fetchSaleDetail 
+    } = useSales(); 
 
     useEffect(() => {
-        if (venta && venta.idVenta) {
-            fetchDetalleVenta(venta.idVenta);
+        if (sale && sale.idVenta) {
+            fetchSaleDetail(sale.idVenta);
         }
-    }, [venta, fetchDetalleVenta]); 
+    }, [sale, fetchSaleDetail]); 
 
-    const totalCalculado = (detalleVenta || []).reduce((acc, item) => acc + Number(item.subtotal), 0);
+    const calculatedTotal = (saleDetail || []).reduce((acc, item) => acc + Number(item.subtotal), 0);
 
-    const renderDetalles = () => {
-        if (!detalleVenta || detalleVenta.length === 0) {
+    const renderDetails = () => {
+        if (!saleDetail || saleDetail.length === 0) {
             return (
                 <tr>
                     <td colSpan="4">No se encontraron detalles para esta venta.</td>
@@ -27,17 +27,17 @@ function DetalleVenta({ venta, closeModal }) {
             );
         }
 
-        return detalleVenta.map((detalle, index) => (
+        return saleDetail.map((detail, index) => (
             <tr key={index}>
-                <td>{detalle.articulo}</td>
-                <td>{detalle.descripcion}</td>
-                <td>{detalle.cantidadVendida}</td>
-                <td>{detalle.subtotal}</td>
+                <td>{detail.articulo}</td>
+                <td>{detail.descripcion}</td>
+                <td>{detail.cantidadVendida}</td>
+                <td>{detail.subtotal}</td>
             </tr>
         ));
     };
 
-    if (loadingDetalle) {
+    if (loadingDetail) {
         return <div>Cargando detalles de la venta...</div>;
     }
 
@@ -45,11 +45,11 @@ function DetalleVenta({ venta, closeModal }) {
         <div className="modal">
             <div className="modal-content">
                 <span className="close-btn" onClick={closeModal}>&times;</span>
-                <h2 className="titulo-venta">
-                    Detalles de Venta #{venta.idVenta}
+                <h2 className="sale-title">
+                    Detalles de Venta #{sale.idVenta}
                 </h2>
                 <div className="table-responsive">
-                    <table className="tabla-negra">
+                    <table className="black-table">
                         <thead>
                             <tr>
                                 <th>Artículo</th>
@@ -59,18 +59,18 @@ function DetalleVenta({ venta, closeModal }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {renderDetalles()}
+                            {renderDetails()}
                         </tbody>
                     </table>
                 </div>
 
                 <div className="total-container">
                     <div className="total-label">Total Pagado:</div>
-                    <div className="total-monto">{totalCalculado.toFixed(2)}</div>
+                    <div className="total-amount">{calculatedTotal.toFixed(2)}</div>
                 </div>
             </div>
         </div>
     );
 }
 
-export default DetalleVenta;
+export default SaleDetail;

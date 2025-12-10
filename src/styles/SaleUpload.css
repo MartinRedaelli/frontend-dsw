@@ -6,7 +6,7 @@ body {
     padding: 20px;
 }
 
-#titulo-venta {
+#title-sale {
   color: #2c3e50;
   padding: 25px 0;
   text-align: center;
@@ -17,13 +17,7 @@ body {
   border: none;
 }
 
-#titulo-productos {
-    font-size: 20px;
-    margin-top: 30px;
-    color: #333;
-}
-
-#detalle-cargar-venta {
+#sale-detail-upload {
   padding: 20px;
   max-width: 1200px; 
   margin: 0 auto;
@@ -32,17 +26,16 @@ body {
   margin-top: 30px;
 }
 
-
-#total-venta {
+#sale-total {
   padding: 5px 25px;
   text-align: right;
 }
 
-.form-group-cliente {
+.client-form-group {
     margin-bottom: 15px;
 }
 
-#tabla-productos {
+#products-table {
     width: 100%;
     min-width: 600px; 
     border-collapse: collapse;
@@ -55,14 +48,14 @@ body {
   margin-bottom: 6px;
 }
 
-#boton-agregar {
+#add-button {
     width: 100%;
     margin-top: 15px;
     background-color: var(--success);
     color: white;
 }
 
-.finalizar-btn {
+.finish-btn {
     width: 100%;
     background-color: var(--success);
     margin-top: 10px;
@@ -87,7 +80,6 @@ body {
   flex: none; 
   width: 100%;
 }
-
 
 @media (min-width: 600px) {
   .form-row {
@@ -117,7 +109,7 @@ body {
   background-color: #fafafa;
 }
 
-#productos-en-venta .table-responsive-wrapper {
+#sale-products .table-responsive-wrapper {
   width: 100%;
   overflow-x: auto; 
   margin-top: 20px;
@@ -125,7 +117,7 @@ body {
   border-radius: var(--border-radius);
 }
 
-#tabla-productos thead th {
+#products-table thead th {
   color: var(--surface-white) !important;
   font-weight: 600 !important;
   text-align: left;
@@ -133,7 +125,7 @@ body {
   white-space: nowrap; 
 }
 
-#tabla-productos tbody td {
+#products-table tbody td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;

@@ -1,23 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import NavBar from './components/navbar';
+import NavBar from './components/Navbar';
 import LoginPage from './pages/LoginPage';
-import VentasPage from './pages/VentasPage';
+import SalesPage from './pages/SalesPage';
 import StockPage from './pages/StockPage';
-import ClientesPage from './pages/ClientesPage';
-import EmpleadosPage from './pages/EmpleadosPage';
-import SucursalesPage from './pages/SucursalesPage';
-import CargaVenta from './components/CargaVenta';
-import DashboardPage from './pages/dashboardPage'; 
-import DetalleVenta from './components/DetalleVenta'; 
-import { getToken, getUsuarioActual } from './services/authService'; 
+import ClientsPage from './pages/ClientsPage';
+import EmployeesPage from './pages/EmployeesPage';
+import BranchesPage from './pages/BranchesPage';
+import SaleUpload from './components/SaleUpload';
+import DashboardPage from './pages/DashboardPage'; 
+import SaleDetail from './components/SaleDetail'; 
+import { getToken, getCurrentUser } from './services/authService'; 
 import './styles/index.css';
-
-
 
 const PrivateRoute = ({ children, roleRequired }) => {
     const isAuthenticated = !!getToken();
-    const user = getUsuarioActual();
+    const user = getCurrentUser();
 
     if (!isAuthenticated) {
         return <Navigate to="/login" />;
@@ -32,7 +30,7 @@ const PrivateRoute = ({ children, roleRequired }) => {
 
 const InitialRedirect = () => {
     const isAuthenticated = !!getToken();
-    const user = getUsuarioActual();
+    const user = getCurrentUser();
 
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
@@ -42,9 +40,8 @@ const InitialRedirect = () => {
         return <Navigate to="/dashboard" replace />;
     }
     
-    return <Navigate to="/ventas" replace />;
+    return <Navigate to="/sales" replace />;
 };
-
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -69,16 +66,15 @@ function App() {
                         
                         <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
 
-                        <Route path="/ventas" element={<PrivateRoute><VentasPage /></PrivateRoute>} />
-                        <Route path="/cargaventa/nueva" element={<PrivateRoute><CargaVenta /></PrivateRoute>} />
-                        <Route path="/clientes" element={<PrivateRoute><ClientesPage /></PrivateRoute>} />
-                        <Route path="/sucursales" element={<PrivateRoute><SucursalesPage /></PrivateRoute>} />
+                        <Route path="/sales" element={<PrivateRoute><SalesPage /></PrivateRoute>} />
+                        <Route path="/saleupload/new" element={<PrivateRoute><SaleUpload /></PrivateRoute>} />
+                        <Route path="/clients" element={<PrivateRoute><ClientsPage /></PrivateRoute>} />
+                        <Route path="/branches" element={<PrivateRoute><BranchesPage /></PrivateRoute>} />
                         <Route path="/stock" element={<PrivateRoute><StockPage /></PrivateRoute>} />
 
-                        <Route path="/empleados" element={<PrivateRoute roleRequired="admin"><EmpleadosPage /></PrivateRoute>} />
-              
-                        <Route path="/detalle_venta/:idVenta" element={<PrivateRoute><DetalleVenta /></PrivateRoute>} />
-                        <Route path="/cargaventa/:idVenta" element={<PrivateRoute><CargaVenta /></PrivateRoute>} />
+                        <Route path="/employees" element={<PrivateRoute roleRequired="admin"><EmployeesPage /></PrivateRoute>} />
+                        <Route path="/saledetail/:saleId" element={<PrivateRoute><SaleDetail /></PrivateRoute>} />
+                        <Route path="/saleupload/:saleId" element={<PrivateRoute><SaleUpload /></PrivateRoute>} />
 
                         <Route path="*" element={<InitialRedirect />} />
                     </Routes>

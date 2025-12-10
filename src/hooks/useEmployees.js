@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { getToken, logout } from "../services/authService";
 
-
-const useEmpleados = () => {
+const useEmployees = () => {
   const API_BASE_URL = process.env.REACT_APP_API_URL;
   const API = `${API_BASE_URL}empleados`;
 
-  const [empleados, setEmpleados] = useState([]);
+  const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -27,39 +26,39 @@ const useEmpleados = () => {
     };
 
     try {
-      const res = await fetch(url, {
+      const response = await fetch(url, {
         method,
         headers,
         body: body ? JSON.stringify(body) : null,
       });
 
-      if (res.status === 401 || res.status === 403) {
+      if (response.status === 401 || response.status === 403) {
         logout();
-        throw new Error("Sesión expirada");
+        throw new Error("Session expired");
       }
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => {});
-        throw new Error(data?.error || res.statusText);
+      if (!response.ok) {
+        const data = await response.json().catch(() => {});
+        throw new Error(data?.error || response.statusText);
       }
 
-      if (res.status === 204) return {};
-      return await res.json();
+      if (response.status === 204) return {};
+      return await response.json();
 
     } catch (err) {
       throw err;
     }
   }, []);
 
-  const fetchEmpleados = useCallback(async (nombre = "") => {
+  const fetchEmployees = useCallback(async (name = "") => {
     setLoading(true);
     setError(null);
 
-    const url = nombre ? `${API}?nombre=${nombre}` : API;
+    const url = name ? `${API}?nombre=${name}` : API;
 
     try {
       const data = await sendRequest(url);
-      if (isMounted.current) setEmpleados(Array.isArray(data) ? data : []);
+      if (isMounted.current) setEmployees(Array.isArray(data) ? data : []);
 
     } catch (err) {
       if (isMounted.current) setError(err.message);
@@ -71,27 +70,27 @@ const useEmpleados = () => {
   }, [sendRequest]);
 
   useEffect(() => {
-    fetchEmpleados();
-  }, [fetchEmpleados]);
+    fetchEmployees();
+  }, [fetchEmployees]);
 
-  const createEmpleado = useCallback(async (empleado) => {
-    await sendRequest(API, "POST", empleado);
-    fetchEmpleados();
-  }, [sendRequest, fetchEmpleados]);
+  const createEmployee = useCallback(async (employee) => {
+    await sendRequest(API, "POST", employee);
+    fetchEmployees();
+  }, [sendRequest, fetchEmployees]);
 
-  const updateEmpleado = useCallback(async (id, empleado) => {
-    await sendRequest(`${API}/${id}`, "PUT", empleado);
-    fetchEmpleados();
-  }, [sendRequest, fetchEmpleados]);
+  const updateEmployee = useCallback(async (id, employee) => {
+    await sendRequest(`${API}/${id}`, "PUT", employee);
+    fetchEmployees();
+  }, [sendRequest, fetchEmployees]);
 
   return {
-    empleados,
+    employees,
     loading,
     error,
-    fetchEmpleados,
-    createEmpleado,
-    updateEmpleado
+    fetchEmployees,
+    createEmployee,
+    updateEmployee
   };
 };
 
-export default useEmpleados;
+export default useEmployees;

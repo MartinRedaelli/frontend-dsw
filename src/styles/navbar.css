@@ -1,25 +1,23 @@
- :root {
+:root {
     --navbar-bg: #1a237e; 
     --navbar-text: #ffffff; 
     --accent-color: #3498db; 
     --danger: #dc3545; 
     --secondary-text: #6c757d;
 
-    --ventas-bg: #2e7d32;
+    --sales-bg: #2e7d32;
     --stock-bg: #1976d3;
-    --clientes-bg: #7b1fa2;
-    --empleados-bg: #ed6c02;
-    --sucursales-bg: #00838f;
+    --clients-bg: #7b1fa2;
+    --employees-bg: #ed6c02;
+    --branches-bg: #00838f;
     --dashboard-bg: #50c878;
 
     --navbar-height: 56px;
 }
 
-
 .MuiAppBar-root {
     background-color: var(--navbar-bg) !important;
 }
-
 
 .navbar-toolbar {
     display: flex;
@@ -62,7 +60,6 @@
     padding: 0; 
 }
 
-
 .navbar-center-container .MuiButton-root {
     width: 100%;
     justify-content: flex-start; 
@@ -71,14 +68,13 @@
     color: white; 
 }
 
-
 .nav-btn-active-dashboard { 
     background-color: var(--dashboard-bg) !important; 
     color: white !important; 
 }
 
-.nav-btn-active-ventas { 
-    background-color: var(--ventas-bg) !important; 
+.nav-btn-active-sales { 
+    background-color: var(--sales-bg) !important; 
     color: white !important;
 }
 
@@ -87,23 +83,22 @@
     color: white !important;
 }
 
-.nav-btn-active-clientes { 
-    background-color: var(--clientes-bg) !important; 
+.nav-btn-active-clients { 
+    background-color: var(--clients-bg) !important; 
     color: white !important;
 }
 
-.nav-btn-active-empleados { 
-    background-color: var(--empleados-bg) !important; 
+.nav-btn-active-employees { 
+    background-color: var(--employees-bg) !important; 
     color: white !important;
 }
 
-.nav-btn-active-sucursales { 
-    background-color: var(--sucursales-bg) !important; 
+.nav-btn-active-branches { 
+    background-color: var(--branches-bg) !important; 
     color: white !important;
 }
 
-
-.btn-CerrarSesion-mobile {
+.btn-logout-mobile {
     color: white !important;
     background-color: var(--danger) !important; 
     margin-top: 10px !important;
@@ -113,14 +108,12 @@
     color: var(--navbar-text);
 }
 
-.icon-perfil {
+.profile-icon {
     color: var(--navbar-text);
     margin-right: 5px;
 }
 
-
 @media (min-width: 600px) {
-    
     .menu-toggle {
         display: none !important;
     }
@@ -146,11 +139,11 @@
         color: var(--navbar-text); 
     }
 
-    .nav-btn-active-ventas { border-bottom-color: var(--ventas-bg) !important; }
+    .nav-btn-active-sales { border-bottom-color: var(--sales-bg) !important; }
     .nav-btn-active-stock { border-bottom-color: var(--stock-bg) !important; }
-    .nav-btn-active-clientes { border-bottom-color: var(--clientes-bg) !important; }
-    .nav-btn-active-empleados { border-bottom-color: var(--empleados-bg) !important; }
-    .nav-btn-active-sucursales { border-bottom-color: var(--sucursales-bg) !important; }
+    .nav-btn-active-clients { border-bottom-color: var(--clients-bg) !important; }
+    .nav-btn-active-employees { border-bottom-color: var(--employees-bg) !important; }
+    .nav-btn-active-branches { border-bottom-color: var(--branches-bg) !important; }
     .nav-btn-active-dashboard { border-bottom-color: var(--dashboard-bg) !important; }
 
     .navbar-center-container .MuiButton-root:hover {
@@ -164,7 +157,7 @@
         gap: 15px; 
     }
     
-    .btn-CerrarSesion {
+    .btn-logout {
         display: flex !important;
         color: var(--navbar-text) !important;
         background-color: var(--danger) !important;

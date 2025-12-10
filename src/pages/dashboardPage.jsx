@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Card, CardContent, Typography, List, ListItem, ListItemText, CircularProgress, Box, Alert } from '@mui/material';
-import useHookDashboard from '../hooks/useHookDashboard'; 
+import useDashboard from '../hooks/useDashboard'; 
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import '../styles/DashboardPage.css';
 
@@ -13,7 +13,7 @@ const formatCurrency = (amount) => {
 };
 
 const DashboardPage = () => {
-    const stats = useHookDashboard(); 
+    const stats = useDashboard(); 
 
     if (stats.loading) {
         return <Box display="flex" justifyContent="center" mt={10}><CircularProgress /></Box>;
@@ -29,15 +29,15 @@ const DashboardPage = () => {
             {stats.error && <Alert severity="error" mb={3}>{stats.error}</Alert>}
 
             <Grid container spacing={3} className="dashboard-grid">
-                {/* Tarjeta 1: Ventas del Mes */}
+                {/* Card 1: Monthly Sales */}
                 <Grid item xs={12} sm={6} md={4}>
-                    <Card className="dashboard-card card-ventas">
+                    <Card className="dashboard-card monthly-sales-card">
                         <CardContent>
                             <Typography variant="subtitle1" className="card-title">
                                 Ventas del Mes
                             </Typography>
                             <Typography variant="h3" className="card-number" color="success">
-                                {stats.ventasMes}
+                                {stats.monthlySales}
                             </Typography>
                             <Typography variant="body2" className="card-subtitle">
                                 Transacciones registradas
@@ -46,15 +46,15 @@ const DashboardPage = () => {
                     </Card>
                 </Grid>
 
-                {/* Tarjeta 2: Ingresos del mes */}
+                {/* Card 2: Monthly Revenue */}
                 <Grid item xs={12} sm={6} md={4}>
-                    <Card className="dashboard-card card-ingresos">
+                    <Card className="dashboard-card monthly-revenue-card">
                         <CardContent>
                             <Typography variant="subtitle1" className="card-title">
                                 Ingresos del Mes
                             </Typography>
-                            <Typography variant="h3" className="card-number ingreso-monto">
-                                {formatCurrency(stats.ingresosMes)}
+                            <Typography variant="h3" className="card-number revenue-amount">
+                                {formatCurrency(stats.monthlyRevenue)}
                             </Typography>
                             <Typography variant="body2" className="card-subtitle">
                                 Total facturado
@@ -63,15 +63,15 @@ const DashboardPage = () => {
                     </Card>
                 </Grid>
 
-                {/* Tarjeta 3: Stock bajo */}
+                {/* Card 3: Low Stock */}
                 <Grid item xs={12} sm={6} md={4}>
-                    <Card className="dashboard-card card-stock-bajo">
+                    <Card className="dashboard-card low-stock-card">
                         <CardContent>
                             <Typography variant="subtitle1" className="card-title">
                                 Stock Bajo
                             </Typography>
                             <Typography variant="h3" className="card-number">
-                                {stats.productosPocoStock.length}
+                                {stats.lowStockProducts.length}
                             </Typography>
                             <Typography variant="body2" className="card-subtitle">
                                 Productos por reponer
@@ -80,23 +80,23 @@ const DashboardPage = () => {
                     </Card>
                 </Grid>
 
-                {/* Tarjeta 4: Sin stock */}
+                {/* Card 4: Out of Stock */}
                 <Grid item xs={12} md={6} lg={4}>
-                    <Card className="dashboard-card card-sin-stock">
+                    <Card className="dashboard-card out-of-stock-card">
                         <CardContent>
                             <Typography variant="subtitle1" className="card-title" mb={2}>
                                 Productos Sin Stock
                             </Typography>
                             <List dense className="card-list">
-                                {stats.productosSinStock.slice(0, 3).map((producto) => (
-                                    <ListItem key={producto.idProducto}>
+                                {stats.outOfStockProducts.slice(0, 3).map((product) => (
+                                    <ListItem key={product.idProducto}>
                                         <ListItemText 
-                                            primary={producto.articulo}
-                                            secondary={producto.descripcion || "Sin descripción"}
+                                            primary={product.articulo}
+                                            secondary={product.descripcion || "Sin descripción"}
                                         />
                                     </ListItem>
                                 ))}
-                                {stats.productosSinStock.length === 0 && (
+                                {stats.outOfStockProducts.length === 0 && (
                                     <ListItem>
                                         <ListItemText 
                                             primary="¡Excelente!"
@@ -109,19 +109,19 @@ const DashboardPage = () => {
                     </Card>
                 </Grid>
 
-                {/* Tarjeta 5: Top productos */}
+                {/* Card 5: Top Products */}
                 <Grid item xs={12} md={6} lg={4}>
-                    <Card className="dashboard-card card-top-productos">
+                    <Card className="dashboard-card top-products-card">
                         <CardContent>
                             <Typography variant="subtitle1" className="card-title" mb={2}>
                                 Productos Más Vendidos
                             </Typography>
                             <List dense className="card-list">
-                                {stats.productosMasVendidos.slice(0, 3).map((producto, index) => (
-                                    <ListItem key={producto.idProducto}>
+                                {stats.bestSellingProducts.slice(0, 3).map((product, index) => (
+                                    <ListItem key={product.idProducto}>
                                         <ListItemText 
-                                            primary={`${index + 1}. ${producto.articulo}`}
-                                            secondary={`${producto.total_vendido} unidades vendidas`}
+                                            primary={`${index + 1}. ${product.articulo}`}
+                                            secondary={`${product.total_vendido} unidades vendidas`}
                                         />
                                     </ListItem>
                                 ))}
@@ -130,19 +130,19 @@ const DashboardPage = () => {
                     </Card>
                 </Grid>
 
-                {/* Tarjeta 6: Top vendedores */}
+                {/* Card 6: Top Sellers */}
                 <Grid item xs={12} lg={4}>
-                    <Card className="dashboard-card card-top-vendedores">
+                    <Card className="dashboard-card top-sellers-card">
                         <CardContent>
                             <Typography variant="subtitle1" className="card-title" mb={2}>
                                 Top Vendedores
                             </Typography>
                             <List dense className="card-list">
-                                {stats.topVendedores.slice(0, 3).map((vendedor) => (
-                                    <ListItem key={vendedor.idEmpleado}>
+                                {stats.topSellers.slice(0, 3).map((seller) => (
+                                    <ListItem key={seller.idEmpleado}>
                                         <ListItemText 
-                                            primary={vendedor.nombre_apellidoEmp}
-                                            secondary={`${vendedor.total_ventas} ventas - ${formatCurrency(vendedor.total_monto)}`}
+                                            primary={seller.nombre_apellidoEmp}
+                                            secondary={`${seller.total_ventas} ventas - ${formatCurrency(seller.total_monto)}`}
                                         />
                                     </ListItem>
                                 ))}

@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getToken, logout } from '../services/authService';
 
-
 const useRoles = () => {
   const API_BASE_URL = process.env.REACT_APP_API_URL;
-const ROLES_API_URL = `${API_BASE_URL}roles`;
- 
-const [roles, setRoles] = useState([]);
+  const ROLES_API_URL = `${API_BASE_URL}roles`;
+  
+  const [roles, setRoles] = useState([]);
   const [loadingRoles, setLoadingRoles] = useState(false);
   const [errorRoles, setErrorRoles] = useState(null);
 
@@ -28,7 +27,7 @@ const [roles, setRoles] = useState([]);
 
       if (response.status === 401 || response.status === 403) {
         logout();
-        throw new Error('Sesión expirada o no autorizada.');
+        throw new Error('Session expired or unauthorized.');
       }
 
       if (!response.ok) {
@@ -41,7 +40,7 @@ const [roles, setRoles] = useState([]);
       return await response.json();
 
     } catch (err) {
-      console.error('Error en sendRequest (Roles):', err.message);
+      console.error('Error in sendRequest (Roles):', err.message);
       throw err;
     }
   }, []);
@@ -60,7 +59,7 @@ const [roles, setRoles] = useState([]);
       setRoles(normalized);
 
     } catch (err) {
-      setErrorRoles('Error al cargar roles: ' + err.message);
+      setErrorRoles('Error loading roles: ' + err.message);
       setRoles([]);
     } finally {
       setLoadingRoles(false);

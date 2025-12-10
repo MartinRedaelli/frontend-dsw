@@ -42,7 +42,6 @@
     cursor: pointer;
 }
 
-
 .action-btn-edit {
     color: var(--primary-color) !important;
 }
@@ -51,12 +50,12 @@
     background-color: rgba(25, 118, 210, 0.04) !important;
 }
 
-.cliente-icon {
+.client-icon {
     color: #7e57c2 !important;
-    margin-right: 8px
+    margin-right: 8px;
 }
 
-.form-container-cliente{
+.form-container-client {
     border-left: 4px solid #7e57c2 !important;
 }
 

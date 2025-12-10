@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { getUsuarioActual, logout } from '../services/authService';
+import { getCurrentUser, logout } from '../services/authService';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton } from '@mui/material';
 import { Person, Menu as MenuIcon, Close as CloseIcon, Logout as LogoutIcon } from '@mui/icons-material';
-import '../styles/navbar.css';
+import '../styles/Navbar.css';
 
 const NavBar = () => {
     const [user, setUser] = useState({});
@@ -13,7 +13,7 @@ const NavBar = () => {
     const location = useLocation();
 
     useEffect(() => {
-        const currentUser = getUsuarioActual();
+        const currentUser = getCurrentUser();
         if (currentUser) {
             setUser(currentUser);
         }
@@ -37,13 +37,13 @@ const NavBar = () => {
         
         switch(path) {
             case '/dashboard': return 'nav-btn-active-dashboard';
-            case '/ventas': 
-            case '/cargaventa/nueva':
-                return 'nav-btn-active-ventas';
+            case '/sales': 
+            case '/saleupload/new':
+                return 'nav-btn-active-sales';
             case '/stock': return 'nav-btn-active-stock';
-            case '/clientes': return 'nav-btn-active-clientes';
-            case '/empleados': return 'nav-btn-active-empleados';
-            case '/sucursales': return 'nav-btn-active-sucursales';
+            case '/clients': return 'nav-btn-active-clients';
+            case '/employees': return 'nav-btn-active-employees';
+            case '/branches': return 'nav-btn-active-branches';
             default: return '';
         }
     };
@@ -79,18 +79,18 @@ const NavBar = () => {
                         </Button>
                     )}
                     
-                    <Button color="inherit" component={Link} to="/ventas" className={getActiveClass('/ventas')} onClick={() => setMenuOpen(false)}>Ventas</Button>
+                    <Button color="inherit" component={Link} to="/sales" className={getActiveClass('/sales')} onClick={() => setMenuOpen(false)}>Ventas</Button>
                     <Button color="inherit" component={Link} to="/stock" className={getActiveClass('/stock')} onClick={() => setMenuOpen(false)}>Stock</Button>
-                    <Button color="inherit" component={Link} to="/clientes" className={getActiveClass('/clientes')} onClick={() => setMenuOpen(false)}>Clientes</Button>
+                    <Button color="inherit" component={Link} to="/clients" className={getActiveClass('/clients')} onClick={() => setMenuOpen(false)}>Clientes</Button>
                     
                     {user.rol === 'admin' && (
                         <>
-                            <Button color="inherit" component={Link} to="/empleados" className={getActiveClass('/empleados')} onClick={() => setMenuOpen(false)}>Empleados</Button>
-                            <Button color="inherit" component={Link} to="/sucursales" className={getActiveClass('/sucursales')} onClick={() => setMenuOpen(false)}>Sucursales</Button>
+                            <Button color="inherit" component={Link} to="/employees" className={getActiveClass('/employees')} onClick={() => setMenuOpen(false)}>Empleados</Button>
+                            <Button color="inherit" component={Link} to="/branches" className={getActiveClass('/branches')} onClick={() => setMenuOpen(false)}>Sucursales</Button>
                         </>
                     )}
                     <Button 
-                        className="btn-CerrarSesion-mobile"
+                        className="btn-logout-mobile"
                         onClick={handleLogout}
                         sx={{ display: { xs: 'block', sm: 'none' } }}> 
                         <LogoutIcon fontSize="small" sx={{ marginRight: 1 }} /> Cerrar Sesión
@@ -99,10 +99,10 @@ const NavBar = () => {
 
                 <Box className="navbar-right-container">
                     <Typography variant="body2" className="user-name">
-                        <Person className='icon-perfil'/>{user.nombre}
+                        <Person className='profile-icon'/>{user.nombre}
                     </Typography>
                     <Button 
-                        className="btn-CerrarSesion"
+                        className="btn-logout"
                         onClick={handleLogout}> 
                         Cerrar Sesión 
                     </Button>

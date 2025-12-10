@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import useEmpleados from '../hooks/useHookEmp';
-import useSucursales from '../hooks/useHookSuc';
-import useRoles from '../hooks/useHookRol';
+import useEmployees from '../hooks/useEmployees';
+import useBranches from '../hooks/useBranches';
+import useRoles from '../hooks/useRoles';
 
 import {
   Typography, TextField, Button, Grid, MenuItem, Alert
@@ -16,11 +16,11 @@ import {
   PersonAdd as PersonAddIcon
 } from '@mui/icons-material';
 
-import '../styles/EmpleadosPage.css';
+import '../styles/EmployeesPage.css';
 
-const EmpleadosPage = () => {
-  const { empleados, loading, error, createEmpleado, updateEmpleado, fetchEmpleados } = useEmpleados();
-  const { sucursales } = useSucursales();
+const EmployeesPage = () => {
+  const { employees, loading, error, createEmployee, updateEmployee, fetchEmployees } = useEmployees();
+  const { branches } = useBranches();
   const { roles } = useRoles();
 
   const [formData, setFormData] = useState({
@@ -39,28 +39,29 @@ const EmpleadosPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const dataToSend = {
-    ...formData,
-    rol: Number(formData.rol),
-    sucursal: Number(formData.sucursal) 
+    const dataToSend = {
+      ...formData,
+      rol: Number(formData.rol),
+      sucursal: Number(formData.sucursal) 
+    };
+
+    console.log("Data to send to backend:", dataToSend);
+
+    try {
+      if (isEditMode) {
+        await updateEmployee(dataToSend.DNI_CUIL, dataToSend);
+      } else {
+        await createEmployee(dataToSend);
+      }
+      resetForm();
+    } catch (err) {
+      console.error("Error sending employee:", err);
+    }
   };
 
-  console.log("Datos que se envían al backend:", dataToSend);
-
-  try {
-    if (isEditMode) {
-      await updateEmpleado(dataToSend.DNI_CUIL, dataToSend);
-    } else {
-      await createEmpleado(dataToSend);
-    }
-    resetForm();
-  } catch (err) {
-    console.error("Error al enviar empleado:", err);
-  }
-};
   const handleEdit = (emp) => {
     setFormData({
       DNI_CUIL: emp.DNI_CUIL,
@@ -93,22 +94,22 @@ const handleSubmit = async (e) => {
     <div className="page-container">
 
       <div className="page-title">
-        <BadgeIcon fontSize="large" className="empleado-icon" />
+        <BadgeIcon fontSize="large" className="employee-icon" />
         <span>Gestión de Personal</span>
       </div>
 
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
-      <div className="form-container form-container-empleado">
+      <div className="form-container form-container-employee">
         <input
           type="text"
           placeholder="Buscar empleado"
-          className="input-filtro"
-          onChange={(e) => fetchEmpleados(e.target.value)}
+          className="input-filter"
+          onChange={(e) => fetchEmployees(e.target.value)}
         />
       </div>
 
-      <div className="form-card form-container-empleado">
+      <div className="form-card form-container-employee">
         <Typography variant="h6" className="form-title">
           {isEditMode ? (
             <>
@@ -173,9 +174,9 @@ const handleSubmit = async (e) => {
                 onChange={handleInputChange}
                 required
               >
-                {sucursales.map((suc) => (
-                  <MenuItem key={suc.idSucursal} value={suc.idSucursal}>
-                    {suc.nombreSucursal}
+                {branches.map((branch) => (
+                  <MenuItem key={branch.idSucursal} value={branch.idSucursal}>
+                    {branch.nombreSucursal}
                   </MenuItem>
                 ))}
               </TextField>
@@ -217,9 +218,9 @@ const handleSubmit = async (e) => {
                 onChange={handleInputChange}
                 required
               >
-              {roles.map((rolItem, index) => (
-                <MenuItem key={`${rolItem.idrol}-${index}`} value={rolItem.idrol}>
-                  {rolItem.rol}
+              {roles.map((roleItem, index) => (
+                <MenuItem key={`${roleItem.idrol}-${index}`} value={roleItem.idrol}>
+                  {roleItem.rol}
                 </MenuItem>
               ))}
               </TextField>
@@ -252,7 +253,7 @@ const handleSubmit = async (e) => {
       </div>
 
       <div className="card-container">
-        {!loading && empleados.map((emp) => (
+        {!loading && employees.map((emp) => (
           <div key={emp.DNI_CUIL} className="card">
             <h3 className="card-title">{emp.nombre_apellidoEmp}</h3>
             <p><strong>DNI:</strong> {emp.DNI_CUIL}</p>
@@ -281,4 +282,4 @@ const handleSubmit = async (e) => {
   );
 };
 
-export default EmpleadosPage;
+export default EmployeesPage;

@@ -1,21 +1,22 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
-import '../styles/ModalSucursal.css';
-const ModalSucursal = ({ open, onClose, sucursal }) => {
-  if (!sucursal) return null;
+import '../styles/BranchModal.css';
+
+const BranchModal = ({ open, onClose, branch }) => {
+  if (!branch) return null;
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
       <DialogTitle sx={{ fontWeight: 'bold' }}>
-        {sucursal.nombreSucursal}
+        {branch.nombreSucursal}
       </DialogTitle>
       
       <DialogContent dividers>
         <Typography variant="body1" gutterBottom>
-          <strong>ID Sistema:</strong> #{sucursal.idSucursal}
+          <strong>ID Sistema:</strong> #{branch.idSucursal}
         </Typography>
         <Typography variant="body1">
-          <strong>Dirección:</strong> {sucursal.direccion}
+          <strong>Dirección:</strong> {branch.direccion}
         </Typography>
       </DialogContent>
 
@@ -28,4 +29,4 @@ const ModalSucursal = ({ open, onClose, sucursal }) => {
   );
 };
 
-export default ModalSucursal;
+export default BranchModal;

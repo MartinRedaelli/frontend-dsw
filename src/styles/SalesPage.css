@@ -1,4 +1,4 @@
-#form-venta-inputs {
+#sale-form-inputs {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -7,7 +7,7 @@
   margin: 20px auto;
 }
 
-#cliente-input, #dni-empleado-input {
+#client-input, #dni-employee-input {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -20,43 +20,43 @@ input[type="text"] {
   font-size: 16px;
 }
 
-#tabla-ventas-container {
+#sales-table-container {
   width: 100%;
   margin-top: 20px;
 }
 
-#tabla-ventas {
+#sales-table {
   width: 100%;
   border-collapse: collapse;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#tabla-ventas th, #tabla-ventas td {
+#sales-table th, #sales-table td {
   padding: 12px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
 
-#tabla-ventas th {
+#sales-table th {
   background-color: #4a90e2;
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-#tabla-ventas th:hover {
+#sales-table th:hover {
   background-color: #357ab8;
 }
 
-#tabla-ventas tbody tr:nth-child(even) {
+#sales-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-#tabla-ventas tbody tr:hover {
+#sales-table tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-button.detallebtn {
+button.detail-btn {
   background-color: #007bff;
   color: white;
   padding: 8px 15px;
@@ -66,20 +66,19 @@ button.detallebtn {
   border: none;
 }
 
-button.detallebtn:hover {
+button.detail-btn:hover {
   background-color: #0056b3;
 }
 
-
-.ventas-icon {
-    color: #2e7d32 !important;
-    margin-right: 8px
+.sales-icon {
+  color: #2e7d32 !important;
+  margin-right: 8px;
 }
 
-.form-container-venta{
+.form-container-sale {
   border-left: 4px solid #2e7d32 !important;
 }
 
-.btn-nueva-venta{
-  background-color: #2e7d32 ;
+.btn-new-sale {
+  background-color: #2e7d32
 }

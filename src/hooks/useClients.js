@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getToken, logout } from '../services/authService';
 
-const useClientes = () => {
+const useClients = () => {
   const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-  const [clientes, setClientes] = useState([]);
+  const [clients, setClients] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: 'idCliente', direction: 'ascending' });
   const [error, setError] = useState(null);
 
@@ -34,25 +34,25 @@ const useClientes = () => {
     }
   };
 
-  const fetchClientes = useCallback(async (nombre = '') => {
-    const url = nombre 
-      ? `${API_BASE_URL}clientes?nombre=${encodeURIComponent(nombre)}`
+  const fetchClients = useCallback(async (name = '') => {
+    const url = name 
+      ? `${API_BASE_URL}clientes?nombre=${encodeURIComponent(name)}`
       : `${API_BASE_URL}clientes`;
 
     const data = await sendRequest(url);
-    setClientes(Array.isArray(data) ? data : []);
+    setClients(Array.isArray(data) ? data : []);
   }, []);
 
-  useEffect(() => { fetchClientes(); }, [fetchClientes]);
+  useEffect(() => { fetchClients(); }, [fetchClients]);
 
-  const createCliente = async (cliente) => {
-    await sendRequest(`${API_BASE_URL}clientes`, 'POST', cliente);
-    fetchClientes();
+  const createClient = async (client) => {
+    await sendRequest(`${API_BASE_URL}clientes`, 'POST', client);
+    fetchClients();
   };
 
-  const updateCliente = async (id, cliente) => {
-    await sendRequest(`${API_BASE_URL}clientes/${id}`, 'PUT', cliente);
-    fetchClientes();
+  const updateClient = async (id, client) => {
+    await sendRequest(`${API_BASE_URL}clientes/${id}`, 'PUT', client);
+    fetchClients();
   };
 
   const requestSort = (key) => {
@@ -60,7 +60,7 @@ const useClientes = () => {
     setSortConfig({ key, direction });
   };
 
-  const sortedClientes = [...clientes].sort((a, b) => {
+  const sortedClients = [...clients].sort((a, b) => {
     const valA = a[sortConfig.key] ? a[sortConfig.key].toString().toLowerCase() : '';
     const valB = b[sortConfig.key] ? b[sortConfig.key].toString().toLowerCase() : '';
     
@@ -70,14 +70,14 @@ const useClientes = () => {
   });
 
   return {
-    clientes: sortedClientes,
-    fetchClientes,
-    handleSearchClientes: fetchClientes,
-    createCliente,
-    updateCliente,
+    clients: sortedClients,
+    fetchClients,
+    handleSearchClients: fetchClients,
+    createClient,
+    updateClient,
     requestSort,
     error
   };
 };
 
-export default useClientes;
+export default useClients;

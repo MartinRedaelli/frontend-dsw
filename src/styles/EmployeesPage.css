@@ -1,8 +1,8 @@
-.empleado-icon {
+.employee-icon {
     color: #ff9800 !important;
-    margin-right: 8px
+    margin-right: 8px;
 }
 
-.form-container-empleado{
+.form-container-employee {
     border-left: 4px solid #ff9800 !important;
 }

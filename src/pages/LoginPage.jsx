@@ -26,17 +26,17 @@ const LoginPage = () => {
             
             await new Promise(resolve => setTimeout(resolve, 50));
             
-            const usuarioStr = localStorage.getItem('usuario');
-            let destino = '/ventas'; // Default para vendedor
+            const userStr = localStorage.getItem('user');
+            let destination = '/sales'; // Default para vendedor
             
-            if (usuarioStr) {
-                const usuario = JSON.parse(usuarioStr);
-                if (usuario.rol === 'admin' || usuario.role === 'admin') {
-                    destino = '/dashboard';
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                if (user.rol === 'admin' || user.role === 'admin') {
+                    destination = '/dashboard';
                 }
             }
             
-            window.location.href = destino;
+            window.location.href = destination;
             
         } catch (err) {
             setError(err.message);

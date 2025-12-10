@@ -1,12 +1,12 @@
-.sucursal-icon {
+.branch-icon {
     color: #00bcd4 !important;
     margin-right: 8px
 }
 
-.form-container-sucursal{
+.form-container-branchl{
     border-left: 4px solid #00bcd4 !important;
 }
 
-.btn-sucursal {
+.btn-branch {
     background-color: #00bcd4;
 }

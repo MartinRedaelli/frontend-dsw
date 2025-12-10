@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import useStock from '../hooks/useHookStock';
-import { getUsuarioActual } from '../services/authService';
+import useStock from '../hooks/useStock';
+import { getCurrentUser } from '../services/authService';
 import TablePagination from '@mui/material/TablePagination';
 import TableFooter from '@mui/material/TableFooter';
 import TableRow from '@mui/material/TableRow';
@@ -15,27 +15,27 @@ import '../styles/StockPage.css';
 
 function StockPage() {
   const {
-    sortedProductos,
+    sortedProducts,
     formData,
     filters,
     handleInputChange,
     handleFilterChange,
     handleSubmit,
     handleEdit,
-    handleElim,
+    handleDelete,
     requestSort,
     resetForm,
     page,
     limit,
     setPage,  
     setLimit,
-    totalProductos,
+    totalProducts,
   } = useStock();
 
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const user = getUsuarioActual();
+    const user = getCurrentUser();
     if (user && user.rol === 'admin') {
       setIsAdmin(true);
     }
@@ -49,100 +49,100 @@ function StockPage() {
         Control de Stock
       </div>
 
-<div className="form-container form-container-stock">
+      <div className="form-container form-container-stock">
         <input
           type="text"
           name="nombreProducto"
           value={filters.nombreProducto}
           onChange={handleFilterChange}
           placeholder="Buscar por artículo o descripción"
-          className="input-filtro"
+          className="input-filter"
         />
       </div>
       
       {isAdmin && (
-  <div className="form-card form-container-stock">
-    <Typography variant="h6" className="form-title">
-      {formData.idProducto ? (
-        <>
-          <EditIcon sx={{ mr: 1 }} />
-          Editar Producto
-        </>
-      ) : (
-        <>
-          <AddCircleIcon sx={{ mr: 1 }} />
-          Nuevo Producto
-        </>
+        <div className="form-card form-container-stock">
+          <Typography variant="h6" className="form-title">
+            {formData.idProducto ? (
+              <>
+                <EditIcon sx={{ mr: 1 }} />
+                Editar Producto
+              </>
+            ) : (
+              <>
+                <AddCircleIcon sx={{ mr: 1 }} />
+                Nuevo Producto
+              </>
+            )}
+          </Typography>
+          
+          <form onSubmit={handleSubmit} className="form-content">
+            <div className="form-row">
+              <div className="form-field">
+                <input
+                  type="text"
+                  name="articulo"
+                  value={formData.articulo}
+                  onChange={handleInputChange}
+                  placeholder="Artículo"
+                  required
+                  className="form-input"
+                />
+              </div>
+              
+              <div className="form-field">
+                <input
+                  type="text"
+                  name="descripcion"
+                  value={formData.descripcion}
+                  onChange={handleInputChange}
+                  placeholder="Descripción"
+                  required
+                  className="form-input"
+                />
+              </div>
+              
+              <div className="form-field">
+                <input
+                  type="number"
+                  name="cantidad"
+                  value={formData.cantidad}
+                  onChange={handleInputChange}
+                  placeholder="Cant."
+                  required
+                  className="form-input"
+                />
+              </div>
+              
+              <div className="form-field">
+                <input
+                  type="number"
+                  name="monto"
+                  value={formData.monto}
+                  onChange={handleInputChange}
+                  placeholder="Precio ($)"
+                  required
+                  className="form-input"
+                />
+              </div>
+            </div>
+            
+            <div className="form-buttons">
+              <button type="submit" className="btn-submit btn-add">
+                {formData.idProducto ? 'Guardar Cambios' : 'Agregar'}
+              </button>
+              
+              {formData.idProducto && (
+                <button type="button" className="btn-cancel" onClick={resetForm}>
+                  Cancelar
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
       )}
-    </Typography>
-    
-    <form onSubmit={handleSubmit} className="form-content">
-      <div className="form-row">
-        <div className="form-field">
-          <input
-            type="text"
-            name="articulo"
-            value={formData.articulo}
-            onChange={handleInputChange}
-            placeholder="Artículo"
-            required
-            className="form-input"
-          />
-        </div>
-        
-        <div className="form-field">
-          <input
-            type="text"
-            name="descripcion"
-            value={formData.descripcion}
-            onChange={handleInputChange}
-            placeholder="Descripción"
-            required
-            className="form-input"
-          />
-        </div>
-        
-        <div className="form-field">
-          <input
-            type="number"
-            name="cantidad"
-            value={formData.cantidad}
-            onChange={handleInputChange}
-            placeholder="Cant."
-            required
-            className="form-input"
-          />
-        </div>
-        
-        <div className="form-field">
-          <input
-            type="number"
-            name="monto"
-            value={formData.monto}
-            onChange={handleInputChange}
-            placeholder="Precio ($)"
-            required
-            className="form-input"
-          />
-        </div>
-      </div>
-      
-      <div className="form-buttons">
-        <button type="submit" className="btn-submit btn-agregar">
-          {formData.idProducto ? 'Guardar Cambios' : 'Agregar'}
-        </button>
-        
-        {formData.idProducto && (
-          <button type="button" className="btn-cancel" onClick={resetForm}>
-            Cancelar
-          </button>
-        )}
-      </div>
-    </form>
-  </div>
-)}
 
-<div className="table-responsive">
+      <div className="table-responsive">
         <table className="stock-table">
           <thead>
             <tr>
@@ -154,20 +154,19 @@ function StockPage() {
             </tr>
           </thead>
           <tbody>
-            {sortedProductos.map((producto) => (
-              <tr key={producto.idProducto}>
-                <td>{producto.articulo}</td>
-                <td>{producto.descripcion}</td>
-                <td className={producto.cantidad < 5 ? 'stock-low' : 'stock-ok'}>
-                  {producto.cantidad}
+            {sortedProducts.map((product) => (
+              <tr key={product.idProducto}>
+                <td>{product.articulo}</td>
+                <td>{product.descripcion}</td>
+                <td className={product.cantidad < 5 ? 'stock-low' : 'stock-ok'}>
+                  {product.cantidad}
                 </td>
-                <td>{`$${(producto.monto ? Number(producto.monto).toFixed(2) : '0.00')}`}</td>
+                <td>{`$${(product.monto ? Number(product.monto).toFixed(2) : '0.00')}`}</td>
                 
-
                 {isAdmin && (
                   <td>
-                    <button className="btn-edit" onClick={() => handleEdit(producto)}> Editar</button>
-                    <button className="btn-delete" onClick={() => handleElim(producto.idProducto, producto.estado)} > Borrar </button>
+                    <button className="btn-edit" onClick={() => handleEdit(product)}> Editar</button>
+                    <button className="btn-delete" onClick={() => handleDelete(product.idProducto, product.estado)} > Borrar </button>
                   </td>
                 )}
               </tr>
@@ -179,7 +178,7 @@ function StockPage() {
               <TablePagination
                 rowsPerPageOptions={[5, 10, 20]}
                 colSpan={isAdmin ? 5 : 4} 
-                count={totalProductos}
+                count={totalProducts}
                 rowsPerPage={limit}
                 page={page}
                 SelectProps={{
@@ -197,7 +196,6 @@ function StockPage() {
     </div>
   );
 }
-
 
 function TablePaginationActions(props) {
   const { count, page, rowsPerPage, onPageChange } = props;

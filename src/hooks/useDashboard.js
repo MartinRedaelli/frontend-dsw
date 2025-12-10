@@ -1,24 +1,24 @@
 import { useState, useEffect } from 'react';
-import { getUsuarioActual, getToken } from '../services/authService';
+import { getCurrentUser, getToken } from '../services/authService';
 
-const useHookDashboard = () => {
+const useDashboard = () => {
   const API_BASE_URL = process.env.REACT_APP_API_URL;
 
     const [stats, setStats] = useState({
-        ventasMes: 0,
-        ingresosMes: 0,
-        productosPocoStock: [],
-        productosSinStock: [],
-        productosMasVendidos: [],
-        topVendedores: [],
+        monthlySales: 0,
+        monthlyRevenue: 0,
+        lowStockProducts: [],
+        outOfStockProducts: [],
+        bestSellingProducts: [],
+        topSellers: [],
         loading: true,
         error: null
     });
 
     useEffect(() => {
-        const user = getUsuarioActual();
+        const user = getCurrentUser();
         if (!user || user.rol !== 'admin') {
-            setStats(prev => ({ ...prev, loading: false, error: 'Acceso no autorizado' }));
+            setStats(prev => ({ ...prev, loading: false, error: 'Unauthorized access' }));
             return;
         }
 
@@ -46,12 +46,12 @@ const useHookDashboard = () => {
                 const data = await response.json();
                 
                 setStats({
-                    ventasMes: data.ventas || 0,
-                    ingresosMes: data.ingresos || 0,
-                    productosPocoStock: data.productosPocoStock || [],
-                    productosSinStock: data.productosSinStock || [],
-                    productosMasVendidos: data.productosMasVendidos || [],
-                    topVendedores: data.topVendedores || [],
+                    monthlySales: data.ventas || 0,
+                    monthlyRevenue: data.ingresos || 0,
+                    lowStockProducts: data.productosPocoStock || [],
+                    outOfStockProducts: data.productosSinStock || [],
+                    bestSellingProducts: data.productosMasVendidos || [],
+                    topSellers: data.topVendedores || [],
                     loading: false,
                     error: null
                 });
@@ -60,7 +60,7 @@ const useHookDashboard = () => {
                 setStats(prev => ({
                     ...prev,
                     loading: false,
-                    error: `Error al cargar datos: ${err.message}`
+                    error: `Error loading data: ${err.message}`
                 }));
             }
         };
@@ -71,4 +71,4 @@ const useHookDashboard = () => {
     return stats;
 };
 
-export default useHookDashboard;
+export default useDashboard;
